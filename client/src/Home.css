@@ -1,0 +1,113 @@
+/* home.css */
+
+body {
+    margin: 0;
+    padding: 0;
+    font-family: 'Arial', sans-serif;
+}
+
+.container {
+    display: flex;
+}
+
+/* Sidebar styles */
+.sidebar {
+    background-color: #f8f9fa; /* Adjust background color as needed */
+    height: 625px; /* Make the sidebar full height */
+    display: flex;
+    flex-direction: column; /* Align items vertically */
+    justify-content: space-between; /* Space items evenly */
+    width: 178.344px;
+    padding-bottom: 16px;
+    padding-left: 8px;
+    padding-right: 8px;
+    padding-top: 16px;
+    min-width: 100px;
+}
+
+.sidebar-title {
+    font-size: 24px;
+    font-weight: bold;
+    margin-bottom: 20px;
+}
+
+.sidebar-button {
+    display: block;
+    width: 100%;
+    text-align: left;
+    padding: 10px;
+    margin-bottom: 10px;
+    text-decoration: none;
+    color: #000;
+}
+
+.sidebar-button:hover {
+    background-color: #eee;
+}
+
+.logout-button {
+    display: block;
+    width: 100%;
+    text-align: center;
+    padding: 10px;
+    text-decoration: none;
+    color: #fff;
+    background-color: #e74c3c;
+    margin-top: 20px;
+}
+
+.logout-button:hover {
+    background-color: #c0392b;
+}
+
+/* Main content styles */
+.main-content {
+    padding: 20px;
+}
+
+/* Dashboard styles */
+.dashboard-container {
+    border: 3px solid #fff;
+    padding: 20px;
+    align-items: center;
+}
+
+.quizzie-title {
+    margin-top: 20px;
+}
+
+.dashboard-buttons {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 30px;
+
+}
+
+.dashboard-btn {
+    margin-bottom: 10px;
+}
+
+dashboard-block {
+    display: flex;
+    flex-direction: row; /* Change to row to make blocks horizontal */
+    margin-top: 20px;
+    justify-content: space-between; /* Adjust alignment as needed */
+}
+
+.dashboard-block > div {
+    width: 30%; /* Adjust the width as needed */
+    padding: 20px;
+    border: 2px solid red;
+}
+
+.dashboard-block h3 {
+    margin-bottom: 10px;
+}
+    
+
+.dashboard-block h3 {
+    margin-bottom: 10px;
+}
+
+/* Add more styles as needed for your main content */
