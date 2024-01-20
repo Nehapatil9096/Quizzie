@@ -22,3 +22,9 @@ dist-ssr
 *.njsproj
 *.sln
 *.sw?
+# Exclude node_modules directory
+node_modules/
+
+# Exclude files generated during development or build
+.DS_Store
+.vscode/
