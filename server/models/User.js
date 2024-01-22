@@ -1,0 +1,40 @@
+//const mongoose = require('mongoose');
+
+/*const userSchema = new mongoose.Schema({
+  name: String,
+  email: String,
+  password: String,
+});*/
+
+//const User = mongoose.model('User', userSchema);
+
+//module.exports = User;
+// models/User.js
+const mongoose = require('mongoose');
+
+const userSchema = new mongoose.Schema({
+  name: String,
+  email: String,
+  password: String,
+  quizzes: [
+    {
+      quizName: String,
+      questions: [
+        {
+          questionText: String,
+          options: [String],
+          correctOption: Number,
+        },
+      ],
+    },
+  ],
+});
+
+userSchema.methods.addQuiz = async function (quizName, questions) {
+  this.quizzes.push({ quizName, questions });
+  await this.save();
+};
+
+const User = mongoose.model('User', userSchema);
+
+module.exports = User;

@@ -1,20 +1,31 @@
 import React, { useState } from 'react';
+import { useNavigate } from 'react-router-dom'; // Import the useNavigate hook
 import './home.css'; // Import the CSS file
 import CreateQuizForm from './CreateQuizForm';
+import './Mark.jsx';
 
 function Home() {
   const [isCreateQuizModalVisible, setCreateQuizModalVisibility] = useState(false);
 
+  const navigate = useNavigate(); // Initialize the useNavigate hook
+  
   const toggleCreateQuizModal = () => {
     setCreateQuizModalVisibility(!isCreateQuizModalVisible);
+  };
+  
+  const navigateToMarkPage = () => {
+    navigate('/mark'); // Navigate to the '/mark' route
   };
 
   return (
     <div className="container">
       <div className="sidebar">
         <div className="sidebar-title">QUIZZIE</div>
+        
         <a href="#" className="sidebar-button">Dashboard</a>
-        <a href="#" className="sidebar-button">Analytics</a>
+        <button href="#" className="sidebar-button">Analytics</button>
+        <button className="sidebar-button" onClick={navigateToMarkPage}>Mark</button>
+
         <button className="sidebar-button" onClick={toggleCreateQuizModal}>Create Quiz</button>
         <a href="#" className="logout-button">Logout</a>
       </div>

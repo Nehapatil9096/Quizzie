@@ -1,22 +1,36 @@
-import { useState } from 'react'
-import 'bootstrap/dist/css/bootstrap.min.css'
-import Signup from './Signup'
-import{BrowserRouter, Routes,Route} from 'react-router-dom'
-import Login from './Login'
-import Home from './Home'
+// App.jsx
+import React from 'react';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import Signup from './Signup';
+import Login from './Login';
+import Home from './Home';
+import Mark from './Mark';
+import CreateQuizForm from './CreateQuizForm';
+import Navigation from './Navigation'; // Import the Navigation component
+import QuizAnalysis from './QuizAnalysis'; // Import the QuizAnalysis component
 
 function App() {
+  
 
+  //User Function Ends **************
   return (
-    <BrowserRouter>
-      <Routes>
-        <Route path='/register' element={<Signup />}></Route>
-        <Route path='/login' element={<Login />}></Route>
-        <Route path='/Home' element={<Home />}></Route>
+    <Router>
+      <div>
+        {/* Use the Navigation component */}
+        <Navigation />
 
-      </Routes>
-    </BrowserRouter>
-  )
+        {/* Define your routes */}
+        <Routes>
+          <Route path="/register" element={<Signup />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/home" element={<Home />} />
+          <Route path="/Mark" element={<Mark />} />
+          <Route path="/create-quiz" element={<CreateQuizForm />} />
+          <Route path="/analytics" element={<QuizAnalysis />} /> {/* Add this line for Analytics */}
+        </Routes>
+      </div>
+    </Router>
+  );
 }
 
-export default App
+export default App;
