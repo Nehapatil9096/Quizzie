@@ -1,13 +1,26 @@
 import React, { useState } from 'react';
 import './CreateQuizForm.css';
-import AddQuestionsForm from './AddQuestionsForm'; // Import the new component
+import { useAuth } from './context/AuthContext';
+import axios from 'axios';
+import AddQuestionsForm from './AddQuestionsForm';
 
-function CreateQuizForm({ onClose, onCreateQuiz }) {
-  const [quizName, setQuizName] = useState("");
-  const [quizType, setQuizType] = useState("Q&A");
-  const [numOfQuestions, setNumOfQuestions] = useState(1); // Default to 1 question
-  const [questions, setQuestions] = useState(Array(numOfQuestions).fill(""));
+function CreateQuizForm({ onClose, onQuizCreate }) {
+  const { userId } = useAuth();
+  const [quizName, setQuizName] = useState('');
+  const [quizType, setQuizType] = useState('Q&A');
+  const [numOfQuestions, setNumOfQuestions] = useState(1);
+  const [questions, setQuestions] = useState(Array(numOfQuestions).fill(''));
   const [showAddQuestionsForm, setShowAddQuestionsForm] = useState(false);
+
+  // Call the backend API to save the quiz details (name, type, questions, etc.)
+  const saveQuizDetails = async (quizDetails) => {
+    try {
+      const response = await axios.post('http://localhost:3001/create-quiz', quizDetails);
+      console.log('Quiz created successfully:', response.data);
+    } catch (error) {
+      console.error('Error creating quiz:', error);
+    }
+  };
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -17,7 +30,8 @@ function CreateQuizForm({ onClose, onCreateQuiz }) {
       setShowAddQuestionsForm(true);
     } else {
       // Continue with creating the quiz
-      onCreateQuiz({
+      saveQuizDetails({
+        userId, // Pass the user ID here
         name: quizName,
         type: quizType,
         numOfQuestions,
@@ -38,7 +52,8 @@ function CreateQuizForm({ onClose, onCreateQuiz }) {
             onClose={() => setShowAddQuestionsForm(false)}
             onSaveQuestions={(newQuestions) => {
               setQuestions(newQuestions);
-              onCreateQuiz({
+              saveQuizDetails({
+                userId, // Pass the user ID here
                 name: quizName,
                 type: quizType,
                 numOfQuestions,

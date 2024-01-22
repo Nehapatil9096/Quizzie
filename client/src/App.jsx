@@ -1,22 +1,28 @@
-import { useState } from 'react'
-import 'bootstrap/dist/css/bootstrap.min.css'
-import Signup from './Signup'
-import{BrowserRouter, Routes,Route} from 'react-router-dom'
-import Login from './Login'
-import Home from './Home'
+// frontend/src/App.jsx
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import Signup from './Signup';
+import Login from './Login';
+import Home from './Home';
+import { AuthProvider } from './context/AuthContext'; // Updated import
+import CreateQuizForm from './CreateQuizForm'; // Import the new component
+import QuizAnalysis from './QuizAnalysis'; // Import the new component
+import Navigation from './Navigation'; // Import the Navigation component
 
 function App() {
-
   return (
-    <BrowserRouter>
+    <AuthProvider>
+    <Router>
       <Routes>
-        <Route path='/register' element={<Signup />}></Route>
-        <Route path='/login' element={<Login />}></Route>
-        <Route path='/Home' element={<Home />}></Route>
+        <Route path="/register" element={<Signup />} />
+        <Route path="/login" element={<Login />} />
+        <Route path="/home" element={<Home />} />
+        <Route path="/create-quiz" element={<CreateQuizForm />} /> {/* Add this line */}
+        <Route path="/analytics" element={<QuizAnalysis />} /> {/* Add this line */}
 
       </Routes>
-    </BrowserRouter>
-  )
+    </Router>
+    </AuthProvider>
+  );
 }
 
-export default App
+export default App;

@@ -1,12 +1,32 @@
+// Import necessary dependencies
 import React, { useState } from 'react';
 import './home.css'; // Import the CSS file
 import CreateQuizForm from './CreateQuizForm';
+import axios from 'axios';
 
 function Home() {
   const [isCreateQuizModalVisible, setCreateQuizModalVisibility] = useState(false);
+  const [quizLink, setQuizLink] = useState(null); // State to store the quiz link
 
   const toggleCreateQuizModal = () => {
     setCreateQuizModalVisibility(!isCreateQuizModalVisible);
+  };
+
+  // Function to handle quiz creation
+  const handleCreateQuiz = async (quizDetails) => {
+    try {
+      // Make an API call to create the quiz
+      const response = await axios.post('http://localhost:3001/createQuiz', quizDetails);
+
+      // Handle the response
+      console.log("Quiz creation response:", response.data);
+
+      // Update the state with the quiz link
+      setQuizLink(response.data.quizLink);
+    } catch (error) {
+      console.error("Error creating quiz:", error);
+      // Handle error as needed
+    }
   };
 
   return (
@@ -23,7 +43,23 @@ function Home() {
         <div className="dashboard-container">
           {/* Display the form/modal when isVisible is true */}
           {isCreateQuizModalVisible && (
-            <CreateQuizForm isVisible={isCreateQuizModalVisible} onClose={toggleCreateQuizModal} />
+            <CreateQuizForm
+              isVisible={isCreateQuizModalVisible}
+              onClose={() => {
+                setCreateQuizModalVisibility(false);
+                // Reset the quiz link when the modal is closed
+                setQuizLink(null);
+              }}
+              onCreateQuiz={handleCreateQuiz} // Pass the function to handle quiz creation
+            />
+          )}
+
+          {/* Display the quiz link if available */}
+          {quizLink && (
+            <div className="dashboard-block">
+              <h3>Quiz Link</h3>
+              <p>{quizLink}</p>
+            </div>
           )}
 
           {/* Display the following blocks by default */}
