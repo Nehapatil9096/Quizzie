@@ -1,4 +1,4 @@
-// src/App.jsx
+// src/mark.jsx
 import React, { useState } from 'react';
 import axios from 'axios';
 
@@ -8,6 +8,10 @@ function Mark() {
   const [questions, setQuestions] = useState([]);
   const [userId, setUserId] = useState(''); // You need to get the user ID after login
 
+  // Function to set the userId after login
+  const handleLogin = (loggedInUserId) => {
+    setUserId(loggedInUserId);
+  };
   // Function to add a new question to the quiz
   const handleAddQuestion = () => {
     setQuestions([...questions, { questionText: '', options: ['', '', '', ''], correctOption: 0 }]);
@@ -17,6 +21,8 @@ function Mark() {
   const handleSaveQuiz = async () => {
     try {
         if (!userId) {
+            console.log(userId);
+
             console.error('Error saving quiz data: User ID is empty');
             return;
         }
@@ -26,6 +32,12 @@ function Mark() {
     } catch (error) {
       console.error('Error saving quiz data:', error.message);
     }
+  };
+  // Function to simulate a successful login
+  const simulateSuccessfulLogin = () => {
+    // Replace this with your actual login logic to obtain the user ID
+    const loggedInUserId = 'some-unique-id';
+    handleLogin(loggedInUserId);
   };
 
   // JSX for the main component
@@ -102,6 +114,8 @@ function Mark() {
       </div>
       {/* Button to save the quiz */}
       <button onClick={handleSaveQuiz}>Save Quiz</button>
+      <button onClick={simulateSuccessfulLogin}>Simulate Login</button>
+
     </div>
   );
 }

@@ -9,6 +9,10 @@ function Login() {
     const [userId, setUserId] = useState(''); // Add state for userId
     const navigate =useNavigate()
 
+    const handleLogin = (loggedInUserId) => {
+        setUserId(loggedInUserId);
+    };
+
     const handleSubmit = async (e) => {
         e.preventDefault();
 
@@ -46,6 +50,8 @@ function Login() {
             // You may set any identifier in the state, as the server doesn't seem to provide a user object
             // For example, setUserId(email) or setUserId('some-unique-id')
             setUserId(email); // Assuming email is unique
+            console.log(userId);
+                    handleLogin(email);
 
             // Navigate to the home route
             navigate('/home');
@@ -58,11 +64,17 @@ function Login() {
 } catch (error) {
     console.error(error);
 }
+// Function to simulate a successful login
+const simulateSuccessfulLogin = () => {
+    // Replace this with your actual login logic to obtain the user ID
+    const loggedInUserId = 'some-unique-id';
+    handleLogin(loggedInUserId);
+  };
+
 
     };
     return (
         <div>
-            <p>User ID: {userId}</p>
         <div className="d-flex justify-content-center align-items-center bg-secondary vh-100">
           <div className="bg-white p-3 rounded w-25">
             <h2>QUIZZIE</h2>
@@ -102,7 +114,10 @@ function Login() {
                 <Link to="/login" className=" btn btn-default border w-100 bg-light rounded-0 text-decoration none">
                     Signup
                 </Link>
+                
             </div>
+            <button onClick={simulateSuccessfulLogin}>Simulate Login</button>
+
             </div>  
         </div>
     );
