@@ -1,8 +1,15 @@
 // App.jsx
+<<<<<<< HEAD
 import React, { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route, useParams } from 'react-router-dom';
 import { Provider } from 'react-redux';
 import store from './redux/store';
+=======
+import React from 'react';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { Provider } from 'react-redux'; // Import Provider
+import store from './redux/store'; // Import your Redux store
+>>>>>>> b7b1f88 (changes till quiz creation and save)
 import Signup from './Signup';
 import Login from './Login';
 import Home from './Home';
@@ -14,6 +21,7 @@ import QuizAnalysis from './QuizAnalysis';
 function App() {
   return (
     <Provider store={store}>
+<<<<<<< HEAD
       <Router basename="/Quizzie"> {/* Set basename to "/Quizzie" */}
         <div>
           <Navigation />
@@ -29,6 +37,24 @@ function App() {
           </Routes>
         </div>
       </Router>
+=======
+    <Router>
+      <div>
+        {/* Use the Navigation component */}
+        <Navigation />
+
+        {/* Define your routes */}
+        <Routes>
+          <Route path="/register" element={<Signup />} />
+          <Route path="/login" element={<Login />} />
+          <Route path="/home" element={<Home />} />
+          <Route path="/Mark" element={<Mark />} />
+          <Route path="/create-quiz" element={<CreateQuizForm />} />
+          <Route path="/analytics" element={<QuizAnalysis />} /> {/* Add this line for Analytics */}
+        </Routes>
+      </div>
+    </Router>
+>>>>>>> b7b1f88 (changes till quiz creation and save)
     </Provider>
   );
 }

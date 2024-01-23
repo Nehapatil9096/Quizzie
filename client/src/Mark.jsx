@@ -1,22 +1,19 @@
 // src/mark.jsx
 import React, { useState } from 'react';
 import axios from 'axios';
+import { useSelector } from 'react-redux';
 
 function Mark() {
   // State to manage quiz information
   const [quizName, setQuizName] = useState('');
   const [questions, setQuestions] = useState([]);
-  const [userId, setUserId] = useState(''); // You need to get the user ID after login
+  const userId = useSelector((state) => state.user.userId);
 
-  // Function to set the userId after login
-  const handleLogin = (loggedInUserId) => {
-    setUserId(loggedInUserId);
-  };
   // Function to add a new question to the quiz
   const handleAddQuestion = () => {
     setQuestions([...questions, { questionText: '', options: ['', '', '', ''], correctOption: 0 }]);
   };
-
+  console.log(userId);
   // Function to save the quiz to the server
   const handleSaveQuiz = async () => {
     try {
@@ -33,13 +30,7 @@ function Mark() {
       console.error('Error saving quiz data:', error.message);
     }
   };
-  // Function to simulate a successful login
-  const simulateSuccessfulLogin = () => {
-    // Replace this with your actual login logic to obtain the user ID
-    const loggedInUserId = 'some-unique-id';
-    handleLogin(loggedInUserId);
-  };
-
+  
   // JSX for the main component
   return (
     <div>
@@ -114,7 +105,6 @@ function Mark() {
       </div>
       {/* Button to save the quiz */}
       <button onClick={handleSaveQuiz}>Save Quiz</button>
-      <button onClick={simulateSuccessfulLogin}>Simulate Login</button>
 
     </div>
   );
