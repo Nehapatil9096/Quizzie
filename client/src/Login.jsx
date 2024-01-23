@@ -1,78 +1,37 @@
-import { useState } from "react";
+import React, { useState } from 'react';
+//import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from 'react-redux';
 import axios from 'axios'
 //import{ useNavigate} from "react-router-dom"
+import { setUserId } from './redux/userSlice';
 
 function Login() {
-    const [email, setEmail] = useState()
-    const [password, setPassword] = useState()
-    const [userId, setUserId] = useState(''); // Add state for userId
-    const navigate =useNavigate()
-
-    const handleLogin = (loggedInUserId) => {
-        setUserId(loggedInUserId);
-    };
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
+    const dispatch = useDispatch();
+    const navigate = useNavigate();
+    const userId = useSelector((state) => state.user.userId);
 
     const handleSubmit = async (e) => {
         e.preventDefault();
 
-       /* axios.post('http://localhost:3001/login', {
-            
-            email,
-            password
-        })
-        .then(result => {
-            console.log(result);
-            if(result.data === "Success"){
+        try {
+            const response = await axios.post('http://localhost:3001/login', {
+              email,
+              password,
+            });
+      
+            if (response.data === 'Success') {
+                dispatch(setUserId(email));
                 navigate('/home');
-
+            } else {
+              console.log('Login unsuccessful. Server response:', response.data);
             }
-        })
-        .catch(err => console.log(err));
-    };*/
-    try {
-    const response = await axios.post('http://localhost:3001/login', {
-        email,
-        password
-    });
-
-    console.log(response);
-
-    // Check if response.data is present
-    if (response.data) {
-        // Assuming response.data is a string
-        const responseData = response.data;
-
-        // Check if the response indicates success
-        if (responseData === 'Success') {
-            console.log('Login successful');
-
-            // You may set any identifier in the state, as the server doesn't seem to provide a user object
-            // For example, setUserId(email) or setUserId('some-unique-id')
-            setUserId(email); // Assuming email is unique
-            console.log(userId);
-                    handleLogin(email);
-
-            // Navigate to the home route
-            navigate('/home');
-        } else {
-            console.log('Login unsuccessful. Server response:', responseData);
-        }
-    } else {
-        console.log('Response data not present');
-    }
-} catch (error) {
-    console.error(error);
-}
-// Function to simulate a successful login
-const simulateSuccessfulLogin = () => {
-    // Replace this with your actual login logic to obtain the user ID
-    const loggedInUserId = 'some-unique-id';
-    handleLogin(loggedInUserId);
-  };
-
-
-    };
+          } catch (error) {
+            console.error(error);
+          }
+        };
     return (
         <div>
         <div className="d-flex justify-content-center align-items-center bg-secondary vh-100">
@@ -116,7 +75,6 @@ const simulateSuccessfulLogin = () => {
                 </Link>
                 
             </div>
-            <button onClick={simulateSuccessfulLogin}>Simulate Login</button>
 
             </div>  
         </div>

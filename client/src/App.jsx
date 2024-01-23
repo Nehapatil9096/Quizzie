@@ -1,6 +1,8 @@
 // App.jsx
 import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { Provider } from 'react-redux'; // Import Provider
+import store from './redux/store'; // Import your Redux store
 import Signup from './Signup';
 import Login from './Login';
 import Home from './Home';
@@ -14,6 +16,7 @@ function App() {
 
   //User Function Ends **************
   return (
+    <Provider store={store}>
     <Router>
       <div>
         {/* Use the Navigation component */}
@@ -30,6 +33,7 @@ function App() {
         </Routes>
       </div>
     </Router>
+    </Provider>
   );
 }
 
