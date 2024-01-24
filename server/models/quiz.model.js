@@ -9,6 +9,8 @@ const quizSchema = new mongoose.Schema({
       questionText: { type: String, required: true },
       timer: { type: Number, default: 0 },
       options: [String],
+      correctOption: { type: Number, required: true },
+
     },
   ],
   // other quiz-related fields
@@ -16,4 +18,4 @@ const quizSchema = new mongoose.Schema({
 
 const Quiz = mongoose.model('Quiz', quizSchema);
 
-export { Quiz };
+module.exports ={ Quiz };
