@@ -1,40 +1,40 @@
-//index.js
-const express =require("express")
-const mongoose = require("mongoose")
+const express = require("express");
+const mongoose = require("mongoose");
 const path = require('path'); 
-const cors = require("cors")
-const User = require("./models/User")
+const cors = require("cors");
+const User = require("./models/User");
 const { Quiz } = require("./models/quiz.model"); // Update the path accordingly
 
-const app = express()
+const app = express();
 const PORT = process.env.PORT || 3001;
 
-app.use(express.json())
-app.use(cors())
+app.use(express.json());
+app.use(cors());
 
-mongoose.connect("mongodb+srv://admin:uXZ0G61yUBJcEw3U@user.dr2i3ep.mongodb.net/?retryWrites=true&w=majority")
+mongoose.connect("mongodb+srv://admin:uXZ0G61yUBJcEw3U@user.dr2i3ep.mongodb.net/?retryWrites=true&w=majority");
 
-app.post("/login",(req,res) => {
-const {email,password} = req.body;
-User.findOne({email: email})
-.then(user =>{
-    if(user){
-    if(user.password === password) {
-        res.json("Success")
-    }else{
-        res.json("the password is incorrect")
+app.post("/login", (req, res) => {
+const { email, password } = req.body;
+User.findOne({ email: email })
+.then(user => {
+    if (user) {
+    if (user.password === password) {
+        res.json("Success");
+                } else {
+        res.json("the password is incorrect");
     }
-  }else {
-    res.json("No record existed")
+  } else {
+    res.json("No record existed");
   }
-})
-})
-app.post('/register',(req,res) => {
+});
+});
+
+app.post('/register', (req, res) => {
     User.create(req.body)
     .then(user => res.json(user))
-    .catch(err=> res.json(err))
+    .catch(err => res.json(err));
+});
 
-})
 // New route to handle fetching quiz data
 app.get('/quiz/:userId/:quizName', async (req, res) => {
     const { userId, quizName } = req.params;
@@ -48,10 +48,9 @@ app.get('/quiz/:userId/:quizName', async (req, res) => {
 
         const quiz = await Quiz.findOne({ userId: user._id, quizName });
        // Find the quiz by matching userId and quizName
-        //const quiz = user.quizzes.find(q => q.quizName === quizName);
-        console.log("quizName info:",quizName)
-        console.log(" User ID info:",userId)
-        console.log("quiz info:",quiz)
+        console.log("quizName info:", quizName);
+        console.log(" User ID info:", userId);
+        console.log("quiz info:", quiz);
         if (!quiz) {
             return res.status(404).json({ error: 'Quiz not found' });
         }
@@ -79,7 +78,8 @@ app.get('/quiz/:userId/:quizName', async (req, res) => {
                     </div>
                 </div>
             `;
-        }).join('');;
+        }).join('');
+
 // Construct the HTML response with styles and quiz content
 const styledQuizPage = `
     <html>
@@ -184,19 +184,24 @@ const styledQuizPage = `
 
 // Send the styled HTML content as the response to the browser
 res.send(styledQuizPage);
-
-        // Return the quiz data to the frontend
-       // res.json({ quiz });
     } catch (error) {
         console.error('Error fetching quiz data:', error.message);
         res.status(500).json({ error: 'Internal Server Error' });
     }
 });
-
+// Endpoint to retrieve the total number of quizzes created
+app.get('/totalQuizzes', async (req, res) => {
+    try {
+        const totalQuizzes = await Quiz.countDocuments();
+        res.json({ totalQuizzes });
+    } catch (error) {
+        console.error('Error fetching total quizzes:', error.message);
+        res.status(500).json({ error: 'Internal Server Error' });
+    }
+});
 // Serve static files from the 'public' directory
 app.use(express.static(path.join(__dirname, "../client/dist")));
 
-//*********************** */
 // Example endpoint for saving quiz data
 app.post('/api/saveQuiz', async (req, res) => {
     console.log(req.body); // Log the received data
@@ -205,9 +210,7 @@ app.post('/api/saveQuiz', async (req, res) => {
     console.log('userId:', userId);
 
     try {
-
-        //const user = await User.findOne({ _id: userId });
-        const user = await User.findOne({email: userId});
+const user = await User.findOne({ email: userId });
 
       if (!user) {
         return res.status(404).json({ error: 'User not found' });
@@ -224,14 +227,13 @@ app.post('/api/saveQuiz', async (req, res) => {
     await newQuiz.save();
 
     return res.json({ message: 'Quiz data saved successfully', quizLink });
-} 
-    catch (error) {
+} catch (error) {
       console.error('Error saving quiz data:', error.message);
       return res.status(500).json({ error: 'Internal Server Error' });
     }
   });
-  //************** */
-
+  
+// Start the server
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
 });
