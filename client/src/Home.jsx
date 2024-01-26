@@ -16,8 +16,8 @@ function Home() {
     setCreateQuizModalVisibility(!isCreateQuizModalVisible);
   };
   
-  const navigateToMarkPage = () => {
-    navigate('/mark'); // Navigate to the '/mark' route
+  const navigateToCreateQuizPage = () => {
+    navigate('/CreateQuiz'); // Navigate to the '/CreateQuiz' route
   };
 
   // Function to handle quiz creation
@@ -37,6 +37,9 @@ function Home() {
     }
   };
 
+  // Function to handle quiz creation
+ 
+
   return (
     <div className="container">
       <div className="sidebar">
@@ -44,7 +47,7 @@ function Home() {
         
         <a href="#" className="sidebar-button">Dashboard</a>
         <button href="#" className="sidebar-button">Analytics</button>
-        <button className="sidebar-button" onClick={navigateToMarkPage}>Mark</button>
+        <button className="sidebar-button" onClick={navigateToCreateQuizPage}>CreateQuiz</button>
 
         <button className="sidebar-button" onClick={toggleCreateQuizModal}>Create Quiz</button>
         <a href="#" className="logout-button">Logout</a>
