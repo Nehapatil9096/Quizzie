@@ -6,7 +6,7 @@ import store from './redux/store';
 import Signup from './Signup';
 import Login from './Login';
 import Home from './Home';
-import Mark from './Mark';
+import CreateQuiz from './CreateQuiz';
 import CreateQuizForm from './CreateQuizForm';
 import Navigation from './Navigation';
 import QuizAnalysis from './QuizAnalysis';
@@ -21,7 +21,7 @@ function App() {
             <Route path="/register" element={<Signup />} />
             <Route path="/login" element={<Login />} />
             <Route path="/home" element={<Home />} />
-            <Route path="/Mark" element={<Mark />} />
+            <Route path="/CreateQuiz" element={<CreateQuiz />} />
             <Route path="/create-quiz" element={<CreateQuizForm />} />
             <Route path="/analytics" element={<QuizAnalysis />} />
             <Route path="/quiz/:userId/:quizName" element={<QuizViewer />} />

@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom'; // Import the useNavigate hook
 import './home.css'; // Import the CSS file
 import CreateQuizForm from './CreateQuizForm';
-import './Mark.jsx';
+import './CreateQuiz.jsx';
 
 function Home() {
   const [isCreateQuizModalVisible, setCreateQuizModalVisibility] = useState(false);
@@ -13,8 +13,8 @@ function Home() {
     setCreateQuizModalVisibility(!isCreateQuizModalVisible);
   };
   
-  const navigateToMarkPage = () => {
-    navigate('/mark'); // Navigate to the '/mark' route
+  const navigateToCreateQuizPage = () => {
+    navigate('/CreateQuiz'); // Navigate to the '/CreateQuiz' route
   };
 
   return (
@@ -24,7 +24,7 @@ function Home() {
         
         <a href="#" className="sidebar-button">Dashboard</a>
         <button href="#" className="sidebar-button">Analytics</button>
-        <button className="sidebar-button" onClick={navigateToMarkPage}>Mark</button>
+        <button className="sidebar-button" onClick={navigateToCreateQuizPage}>CreateQuiz</button>
 
         <button className="sidebar-button" onClick={toggleCreateQuizModal}>Create Quiz</button>
         <a href="#" className="logout-button">Logout</a>

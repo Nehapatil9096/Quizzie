@@ -3,7 +3,7 @@ import axios from 'axios';
 import { useSelector, useDispatch } from 'react-redux';
 import { setUserId } from './redux/userSlice';
 
-function Mark() {
+function CreateQuiz() {
   const [quizName, setQuizName] = useState('');
   const [questions, setQuestions] = useState([]);
   const userId = useSelector((state) => state.user.userId);
@@ -150,4 +150,4 @@ function Mark() {
   );
 }
 
-export default Mark;
+export default CreateQuiz;
