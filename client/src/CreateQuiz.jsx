@@ -2,6 +2,9 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import { useSelector, useDispatch } from 'react-redux';
 import { setUserId } from './redux/userSlice';
+import './createquiz.css';
+import { incrementQuizCount } from './redux/quizCountSlice'; // Adjust the path
+
 
 function CreateQuiz() {
   const [quizName, setQuizName] = useState('');
@@ -9,6 +12,18 @@ function CreateQuiz() {
   const userId = useSelector((state) => state.user.userId);
   const dispatch = useDispatch();
   const [quizLink, setQuizLink] = useState('');
+  const [step, setStep] = useState(1);
+  const [showFormOverlay, setShowFormOverlay] = useState(false); // New state for form-overlay
+
+  const handleContinue = () => {
+    if (quizName.trim() !== '') {
+      // Show form-overlay
+      setShowFormOverlay(true);
+
+      // Move to Step 2
+      setStep(2);
+    }
+  };
 
   const handleAddQuestion = () => {
     if (questions.length < 5) {
@@ -41,8 +56,10 @@ function CreateQuiz() {
       dispatch(setUserId(userId));
 
       setQuizLink(response.data.quizLink);
+      setShowFormOverlay(true);
+      dispatch(incrementQuizCount()); // Dispatch the action to increment quiz count
 
-      const popupWindow = window.open(
+      /*const popupWindow = window.open(
         response.data.quizLink,
         '_blank',
         'height=600,width=800'
@@ -64,13 +81,37 @@ function CreateQuiz() {
         popupWindow.focus();
       } else {
         console.error('Error opening popup window. Make sure your browser allows popups.');
-      }
+      }*/
     } catch (error) {
       console.error('Error saving quiz data:', error.message);
     }
   };
 
+  const handleCloseOverlay = () => {
+    // Hide form-overlay
+    setShowFormOverlay(false);
+  };
+
+  
   return (
+    <div>
+      {step === 1 && (
+        <div>
+          <h1>Enter Quiz Name</h1>
+          <div>
+            <label htmlFor="quizName">Quiz Name:</label>
+            <input
+              type="text"
+              id="quizName"
+              value={quizName}
+              onChange={(e) => setQuizName(e.target.value)}
+            />
+          </div>
+          <button onClick={handleContinue}>Continue</button>
+        </div>
+      )}
+
+    {step === 2 && (  
     <div>
       <h1>Quiz App</h1>
       <div>
@@ -146,6 +187,22 @@ function CreateQuiz() {
           <p>Share this link for others to access the quiz!</p>
         </div>
       )}
+      </div>
+      )}
+
+     {/* Form-overlay */}
+     {showFormOverlay && (
+        <div className="form-overlay">
+          <div className="form-overlay-content">
+            <h2>Your Quiz has been Saved!</h2>
+            <p>Quiz Link: {quizLink}</p>
+            <p>Share this link for others to access the quiz!</p>
+            <button onClick={handleCloseOverlay}>Close</button>
+          </div>
+        </div>
+      )}
+    
+
     </div>
   );
 }
