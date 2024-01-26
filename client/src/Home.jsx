@@ -1,12 +1,14 @@
 // Import necessary dependencies
 import React, { useState } from 'react';
 import { useNavigate } from 'react-router-dom'; // Import the useNavigate hook
+import { useSelector } from 'react-redux';
 import './home.css'; // Import the CSS file
 import CreateQuizForm from './CreateQuizForm';
-
-import axios from 'axios';
+import './CreateQuiz.jsx';
 
 function Home() {
+  const quizCount = useSelector((state) => state.quizCount.count);
+
   const [isCreateQuizModalVisible, setCreateQuizModalVisibility] = useState(false);
   const [quizLink, setQuizLink] = useState(null); // State to store the quiz link
 
@@ -15,10 +17,14 @@ function Home() {
   const toggleCreateQuizModal = () => {
     setCreateQuizModalVisibility(!isCreateQuizModalVisible);
   };
-  
-  const navigateToCreateQuizPage = () => {
-    navigate('/CreateQuiz'); // Navigate to the '/CreateQuiz' route
+  //For new button
+  const [isnewModalVisible, setnewModalVisibility] = useState(false);
+
+  const togglenewModal = () => {
+    setnewModalVisibility(!isnewModalVisible);
   };
+  
+
 
   // Function to handle quiz creation
   const handleCreateQuiz = async (quizDetails) => {
@@ -47,8 +53,7 @@ function Home() {
         
         <a href="#" className="sidebar-button">Dashboard</a>
         <button href="#" className="sidebar-button">Analytics</button>
-        <button className="sidebar-button" onClick={navigateToCreateQuizPage}>CreateQuiz</button>
-
+        <button className="sidebar-button" onClick={togglenewModal}>new</button>
         <button className="sidebar-button" onClick={toggleCreateQuizModal}>Create Quiz</button>
         <a href="#" className="logout-button">Logout</a>
       </div>
@@ -75,12 +80,15 @@ function Home() {
               <p>{quizLink}</p>
             </div>
           )}
-
+          {/* Display the form/modal when isVisible is true */}
+          {isnewModalVisible && (
+            <CreateQuiz isVisible={isnewModalVisible} onClose={togglenewModal} />
+          )}
           {/* Display the following blocks by default */}
           <div className="dashboard-block">
-            <h3>Number of Quizzes Created</h3>
-            {/* Add logic to display the actual number */}
-          </div>
+          <h3>Number of Quizzes Created: {quizCount}</h3>
+          {/* Add logic to display the actual number */}
+        </div>
           <div className="dashboard-block">
             <h3>Number of Questions Created</h3>
             {/* Add logic to display the actual number */}
