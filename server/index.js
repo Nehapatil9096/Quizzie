@@ -47,10 +47,7 @@ app.get('/quiz/:userId/:quizName', async (req, res) => {
         }
 
         const quiz = await Quiz.findOne({ userId: user._id, quizName });
-       // Find the quiz by matching userId and quizName
-        console.log("quizName info:", quizName);
-        console.log(" User ID info:", userId);
-        console.log("quiz info:", quiz);
+       
         if (!quiz) {
             return res.status(404).json({ error: 'Quiz not found' });
         }
@@ -136,6 +133,8 @@ const styledQuizPage = `
         <body>
             <h1>Quiz</h1>
             ${questionsHTML}
+            <!-- Add a submit button -->
+            <button onclick="submitQuiz()">Submit</button>
             <script>
                 let currentQuestionIndex = 0;
                 let userScore = 0;
@@ -172,10 +171,40 @@ const styledQuizPage = `
                 }
 
                 function submitQuiz() {
-                    // Your existing code for handling submission
+                   
+                    // Retrieve user's answers
+                    const userAnswers = [];
 
-                    // Display the user's score
-                    alert(\`Your score: \${userScore}/${quiz.questions.length}\`);
+                    // Your logic to retrieve user's answers goes here
+                    // This could involve querying the DOM or accessing state variables
+                    // Assuming each question has input fields with class "answer-input"
+                    const answerInputs = document.querySelectorAll('.answer-input');
+                
+                    answerInputs.forEach(input => {
+                        userAnswers.push(input.value); // Assuming input fields contain user's answers
+                    });
+                    // Send quiz data to backend for submission
+                    fetch('/submit-quiz/${quiz._id}', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify({
+                            userId: '${userId}', // Include the userId here
+                            answers: userAnswers,  
+                          }),
+                    })
+                    .then(response => {
+                        if (response.ok) {
+                            alert('Quiz submitted successfully');
+                        } else {
+                            alert('Failed to submit quiz');
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error submitting quiz:', error);
+                        alert('Failed to submit quiz');
+                    });
                 }
             </script>
         </body>
@@ -232,8 +261,48 @@ const user = await User.findOne({ email: userId });
       return res.status(500).json({ error: 'Internal Server Error' });
     }
   });
-  
-// Start the server
+  //************** */
+// Save quiz data endpoint
+app.post('/submit-quiz/:quizId', async (req, res) => {
+    console.log ('Manoj quiz ID:', req.params.quizId);
+    try {
+        const quiz = await Quiz.findById(req.params.quizId);
+        console.log ('Neha quiz:', quiz)
+
+        if (!quiz) {
+            return res.status(404).json({ error: 'Quiz not found' });
+        }
+
+        // Update quiz statistics and save to database
+        // Your logic to update quiz statistics based on submitted answers here
+
+        // Extract user's answers from request body
+        const { answers } = req.body;
+
+        // Update quiz statistics based on user's answers
+        let correctAnswers = 0;
+        quiz.questions.forEach((question, index) => {
+            if (answers[index] === question.correctOption) {
+                correctAnswers++;
+            }
+        });
+
+        quiz.submissions.push({
+            //userId,
+            userAnswers: answers, // Fixing the reference to userAnswers
+            correctAnswers,
+            totalQuestions: quiz.questions.length,
+        });
+
+        // Save the updated quiz to the database
+        await quiz.save();
+        
+        res.json({ message: 'Quiz submitted successfully' });
+    } catch (error) {
+        console.error('Error submitting quiz:', error);
+        res.status(500).json({ error: 'Internal Server Error' });
+    }
+});
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
 });

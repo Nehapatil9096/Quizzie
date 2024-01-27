@@ -1,4 +1,3 @@
-// quiz.model.js
 const mongoose = require('mongoose');
 
 const quizSchema = new mongoose.Schema({
@@ -10,12 +9,19 @@ const quizSchema = new mongoose.Schema({
       timer: { type: Number, default: 0 },
       options: [String],
       correctOption: { type: Number, required: true },
-
     },
   ],
-  // other quiz-related fields
+  submissions: [
+    {
+      //userId: { type: mongoose.Schema.Types.ObjectId, ref: 'User', required: true },
+      userAnswers: [Number], // Array of user's answers (assuming each answer is an index of the option)
+      correctAnswers: Number, // Number of correct answers
+      totalQuestions: Number, // Total number of questions
+      // Add any other fields you want to track for each submission
+    }
+  ]
 });
 
 const Quiz = mongoose.model('Quiz', quizSchema);
 
-module.exports ={ Quiz };
+module.exports = { Quiz };
