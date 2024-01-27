@@ -1,3 +1,4 @@
+//User.js
 const mongoose = require('mongoose');
 
 const userSchema = new mongoose.Schema({
@@ -11,13 +12,7 @@ const userSchema = new mongoose.Schema({
   quizzes: [
     {
       quizName: String,
-      questions: [
-        {
-          questionText: String,
-          options: [String],
-          correctOption: Number,
-        },
-      ],
+      questions: [{questionText: String,options: [String],correctOption: Number,},],
     },
   ],
 });
