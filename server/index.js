@@ -14,6 +14,9 @@ app.use(cors())
 
 mongoose.connect("mongodb+srv://admin:uXZ0G61yUBJcEw3U@user.dr2i3ep.mongodb.net/?retryWrites=true&w=majority")
 
+// Serve static files from the 'public' directory
+app.use(express.static(path.join(__dirname, "../client/dist")));
+
 /*app.post("/login",(req,res) => {
 const {email,password} = req.body;
 User.findOne({email: email})
@@ -271,8 +274,6 @@ res.send(styledQuizPage);
     }
 });
 
-// Serve static files from the 'public' directory
-app.use(express.static(path.join(__dirname, "../client/dist")));
 
 //*********************** */
 // Example endpoint for saving quiz data
