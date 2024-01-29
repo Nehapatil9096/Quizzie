@@ -5,6 +5,7 @@
     import axios from 'axios'
     //import{ useNavigate} from "react-router-dom"
     import { setUserId } from './redux/userSlice';
+    import { setDashboardData } from './redux/userSlice';
 
     function Login() {
         const [email, setEmail] = useState('');
@@ -22,8 +23,11 @@
                 password,
                 });
         
-                if (response.data === 'Success') {
+                if (response.data.message === 'Success') {
+                    console.log('Login successful. Server response:', response.data);
                     dispatch(setUserId(email));
+                    dispatch(setDashboardData(response.data.dashboardData));
+
                     navigate('/home');
                 } else {
                 console.log('Login unsuccessful. Server response:', response.data);

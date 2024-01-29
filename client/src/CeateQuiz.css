@@ -1,0 +1,89 @@
+.create-quiz {
+  background-color: #ffffff;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  width: 100%;
+}
+
+.create-quiz .div {
+  background-color: #ffffff;
+  height: 832px;
+  overflow: hidden;
+  position: relative;
+  width: 1280px;
+}
+
+.create-quiz .overlap {
+  height: 832px;
+  left: 0;
+  position: absolute;
+  top: 0;
+  width: 1280px;
+}
+
+.create-quiz .rectangle {
+  background-color: #ececec;
+  height: 832px;
+  left: 193px;
+  position: absolute;
+  top: 0;
+  width: 1087px;
+}
+
+.create-quiz .text-wrapper {
+  color: #4f76ff;
+  font-family: "Poppins", Helvetica;
+  font-size: 50px;
+  font-weight: 600;
+  left: 567px;
+  letter-spacing: 0;
+  line-height: normal;
+  position: absolute;
+  top: 59px;
+}
+
+.create-quiz .group {
+  height: 360px;
+  left: 272px;
+  position: absolute;
+  top: 236px;
+  width: 929px;
+}
+
+.create-quiz .overlap-group {
+  height: 360px;
+  position: relative;
+}
+
+.create-quiz .rectangle-2 {
+  background-color: #4f76ff;
+  border-radius: 10px;
+  height: 35px;
+  left: 4px;
+  position: absolute;
+  top: 1px;
+  width: 925px;
+}
+
+.create-quiz .rectangle-3 {
+  background-color: #b2c3ff;
+  border-radius: 10px;
+  height: 39px;
+  left: 0;
+  position: absolute;
+  top: 80px;
+  width: 925px;
+}
+
+.create-quiz .group-2 {
+  background-color: #b2c3ff;
+  border-radius: 10px;
+  height: 39px;
+  left: 0;
+  position: absolute;
+  top: 163px;
+  width: 925px;
+}
+
+/* Add more styles as needed */

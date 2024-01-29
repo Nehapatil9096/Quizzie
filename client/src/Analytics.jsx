@@ -1,8 +1,8 @@
-// frontend/src/QuizAnalysis.jsx
-import React from 'react';
-import "./QuizAnalysis.css";
+//question wise analysis
+import React from "react";
+import "./Qanalytics.css";
 
-const QuizAnalysis = () => {
+export const Analytics = () => {
   return (
     <div className="analytics">
       <div className="div">
@@ -141,5 +141,3 @@ const QuizAnalysis = () => {
     </div>
   );
 };
-
-export default QuizAnalysis;

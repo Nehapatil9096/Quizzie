@@ -7,12 +7,8 @@ const Navigation = () => {
     <nav>
       <ul>
         {/* Other navigation links */}
-        <li>
-          <Link to="/dashboard">Dashboard</Link>
-        </li>
-        <li>
-          <Link to="/analytics">Analytics</Link>
-        </li>
+        
+        
       </ul>
     </nav>
   );
