@@ -1,9 +1,9 @@
 const express = require("express");
 const mongoose = require("mongoose");
 const path = require('path'); 
-const cors = require("cors");
-const User = require("./models/User");
-const { Quiz } = require("./models/quiz.model"); // Update the path accordingly
+const cors = require("cors")
+const { User } = require("./models/User")
+//const { Quiz } = require("./models/quiz.model"); // Update the path accordingly
 
 const app = express();
 const PORT = process.env.PORT || 3001;
@@ -13,27 +13,66 @@ app.use(cors());
 
 mongoose.connect("mongodb+srv://admin:uXZ0G61yUBJcEw3U@user.dr2i3ep.mongodb.net/?retryWrites=true&w=majority");
 
-app.post("/login", (req, res) => {
-const { email, password } = req.body;
-User.findOne({ email: email })
-.then(user => {
-    if (user) {
-    if (user.password === password) {
-        res.json("Success");
-                } else {
-        res.json("the password is incorrect");
+/*app.post("/login",(req,res) => {
+const {email,password} = req.body;
+User.findOne({email: email})
+.then(user =>{
+    if(user){
+    if(user.password === password) {
+        res.json("Success")
+    }else{
+        res.json("the password is incorrect")
     }
   } else {
     res.json("No record existed");
   }
-});
+})
+})*/
+// Endpoint to handle user login and fetch dashboard data
+app.post('/login', async (req, res) => {
+    try {
+      const { email, password } = req.body;
+  
+      const user = await User.findOne({ email: email });
+  
+      if (!user) {
+        return res.status(404).json({ error: 'User not found' });
+      }
+  
+      if (user.password !== password) {
+        return res.json("The password is incorrect");
+      }
+  
+      // Fetch dashboard data
+      const numberOfQuizzes = user.quizzes.length;
+      const totalQuestionsInQuizzes = user.quizzes.reduce((total, quiz) => total + quiz.questions.length, 0);
+      const totalImpressions = user.quizzes.reduce((total, quiz) => total + quiz.impressions, 0);
+  
+      res.json({
+        message: 'Success', // Include 'Success' message for frontend compatibility
+        userId: user._id, // Include user ID if needed
+        dashboardData: {
+          numberOfQuizzes,
+          totalQuestionsInQuizzes,
+          totalImpressions,
+        },
+      });
+    } catch (error) {
+      console.error(error);
+      res.status(500).json({ error: 'Internal Server Error' });
+    }
+  });
+app.post('/register', async (req, res) => {
+    try {
+        const newUser = new User(req.body);
+        const savedUser = await newUser.save();
+        res.json(savedUser);
+    } catch (error) {
+        console.error('Error creating user:', error);
+        res.status(500).json({ error: 'Internal Server Error' });
+    }
 });
 
-app.post('/register', (req, res) => {
-    User.create(req.body)
-    .then(user => res.json(user))
-    .catch(err => res.json(err));
-});
 
 // New route to handle fetching quiz data
 app.get('/quiz/:userId/:quizName', async (req, res) => {
@@ -46,11 +85,21 @@ app.get('/quiz/:userId/:quizName', async (req, res) => {
             return res.status(404).json({ error: 'User not found' });
         }
 
-        const quiz = await Quiz.findOne({ userId: user._id, quizName });
-       
+        //const quiz = await Quiz.findOne({ userId: user._id, quizName });
+         // Find the quiz directly within the user's quizzes array
+         const quiz = user.quizzes.find(q => q.quizName === quizName);
+         
         if (!quiz) {
             return res.status(404).json({ error: 'Quiz not found' });
         }
+
+            // Increment impressions count when quiz link is opened
+            quiz.impressions++;
+        await user.save();  // Save the updated user document to persist the changes
+
+        console.log(`Impressions for quiz '${quizName}': ${quiz.impressions}`);
+
+    
            
         let currentQuestionIndex = 0; // Initialize the current question index
 
@@ -196,7 +245,7 @@ const styledQuizPage = `
                     })
                     .then(response => {
                         if (response.ok) {
-                            alert('Quiz submitted successfully');
+                            alert(\`Your score: \${userScore}/${quiz.questions.length}\`);
                         } else {
                             alert('Failed to submit quiz');
                         }
@@ -249,11 +298,7 @@ const user = await User.findOne({ email: userId });
       const quizLink = `http://localhost:3001/quiz/${userId}/${quizName}`;
 
      // Save the quiz data along with the quiz link
-      await user.addQuiz(quizName, questions, quizLink);
-
-      // Create a new Quiz document in the database (assuming you have a Quiz model)
-    const newQuiz = new Quiz({ userId: user._id, quizName, questions, quizLink });
-    await newQuiz.save();
+      await user.addQuiz(quizName, questions);
 
     return res.json({ message: 'Quiz data saved successfully', quizLink });
 } catch (error) {
@@ -264,45 +309,49 @@ const user = await User.findOne({ email: userId });
   //************** */
 // Save quiz data endpoint
 app.post('/submit-quiz/:quizId', async (req, res) => {
-    console.log ('Manoj quiz ID:', req.params.quizId);
+    console.log('Manoj quiz ID:', req.params.quizId);
     try {
-        const quiz = await Quiz.findById(req.params.quizId);
-        console.log ('Neha quiz:', quiz)
+        const quizId = req.params.quizId;
+        const quiz = await User.findOne({ 'quizzes._id': quizId }, { 'quizzes.$': 1 });
+        console.log('Neha quiz ID:', quiz);
 
-        if (!quiz) {
+        if (!quiz || !quiz.quizzes[0]) {
             return res.status(404).json({ error: 'Quiz not found' });
         }
 
-        // Update quiz statistics and save to database
-        // Your logic to update quiz statistics based on submitted answers here
+        const selectedQuiz = quiz.quizzes[0];
 
-        // Extract user's answers from request body
+        // Your logic to update quiz statistics based on submitted answers here
         const { answers } = req.body;
 
-        // Update quiz statistics based on user's answers
         let correctAnswers = 0;
-        quiz.questions.forEach((question, index) => {
+        selectedQuiz.questions.forEach((question, index) => {
             if (answers[index] === question.correctOption) {
                 correctAnswers++;
             }
         });
 
-        quiz.submissions.push({
-            //userId,
-            userAnswers: answers, // Fixing the reference to userAnswers
-            correctAnswers,
-            totalQuestions: quiz.questions.length,
-        });
+        // Use $push to update the submissions array within the selected quiz
+        await User.updateOne(
+            { 'quizzes._id': quizId },
+            {
+                $push: {
+                    'quizzes.$.submissions': {
+                        userAnswers: answers,
+                        correctAnswers,
+                        totalQuestions: selectedQuiz.questions.length,
+                    },
+                },
+            }
+        );
 
-        // Save the updated quiz to the database
-        await quiz.save();
-        
         res.json({ message: 'Quiz submitted successfully' });
     } catch (error) {
         console.error('Error submitting quiz:', error);
         res.status(500).json({ error: 'Internal Server Error' });
     }
 });
+
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}`);
 });

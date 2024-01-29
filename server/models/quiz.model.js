@@ -19,7 +19,9 @@ const quizSchema = new mongoose.Schema({
       totalQuestions: Number, // Total number of questions
       // Add any other fields you want to track for each submission
     }
-  ]
+  ],
+  impressions: { type: Number, default: 0 } // Add impressions field to track the number of times the quiz link was opened
+
 });
 
 const Quiz = mongoose.model('Quiz', quizSchema);
