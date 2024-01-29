@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
-import './home.css';
+import './Home.css';
 import CreateQuizForm from './CreateQuizForm';
 import CreateQuiz from './CreateQuiz';
 import QuizAnalysis from './QuizAnalysis';

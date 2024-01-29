@@ -13,6 +13,9 @@ app.use(cors());
 
 mongoose.connect("mongodb+srv://admin:uXZ0G61yUBJcEw3U@user.dr2i3ep.mongodb.net/?retryWrites=true&w=majority");
 
+// Serve static files from the 'public' directory
+app.use(express.static(path.join(__dirname, "../client/dist")));
+
 /*app.post("/login",(req,res) => {
 const {email,password} = req.body;
 User.findOne({email: email})
@@ -267,16 +270,7 @@ res.send(styledQuizPage);
         res.status(500).json({ error: 'Internal Server Error' });
     }
 });
-// Endpoint to retrieve the total number of quizzes created
-app.get('/totalQuizzes', async (req, res) => {
-    try {
-        const totalQuizzes = await Quiz.countDocuments();
-        res.json({ totalQuizzes });
-    } catch (error) {
-        console.error('Error fetching total quizzes:', error.message);
-        res.status(500).json({ error: 'Internal Server Error' });
-    }
-});
+
 // Serve static files from the 'public' directory
 app.use(express.static(path.join(__dirname, "../client/dist")));
 
