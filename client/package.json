@@ -1,15 +1,15 @@
-{ 
+{
   "homepage": "http://nehapatil9096.github.io/quizzie",
   "name": "client",
   "private": true,
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "dev": "vite",
-    "build": "vite build",
-    "deploy": "vite build && gh-pages -d dist",
+    "dev": "react-scripts start", // Assuming you're using create-react-app for development
+    "build": "react-scripts build", // Assuming you're using create-react-app for building
+    "deploy": "gh-pages -d build", // Deployment command using gh-pages package
     "lint": "eslint . --ext js,jsx --report-unused-disable-directives --max-warnings 0",
-    "preview": "vite preview"
+    "preview": "your-preview-script"
   },
   "dependencies": {
     "axios": "^1.6.5",
@@ -21,12 +21,9 @@
   "devDependencies": {
     "@types/react": "^18.2.43",
     "@types/react-dom": "^18.2.17",
-    "@vitejs/plugin-react": "^4.2.1",
     "eslint": "^8.55.0",
     "eslint-plugin-react": "^7.33.2",
     "eslint-plugin-react-hooks": "^4.6.0",
-    "eslint-plugin-react-refresh": "^0.4.5",
-    "vite": "^5.0.8",
-    "gh-pages":"^6.1.1"
+    "eslint-plugin-react-refresh": "^0.4.5"
   }
 }
