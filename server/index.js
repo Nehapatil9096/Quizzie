@@ -15,8 +15,17 @@ app.use(cors())
 mongoose.connect("mongodb+srv://admin:uXZ0G61yUBJcEw3U@user.dr2i3ep.mongodb.net/?retryWrites=true&w=majority")
 
 // Serve static files from the 'public' directory
-app.use(express.static(path.join(__dirname, "../client/dist")));
+//app.use(express.static(path.join(__dirname, "../client/dist")));
 
+// Serve static files from the 'public' directory
+app.use(express.static(path.join(__dirname, "../client/dist"), {
+    // Set headers to specify the MIME type for JavaScript files
+    setHeaders: (res, filePath) => {
+      if (filePath.endsWith(".js")) {
+        res.setHeader("Content-Type", "application/javascript");
+      }
+    }
+  }));
 /*app.post("/login",(req,res) => {
 const {email,password} = req.body;
 User.findOne({email: email})

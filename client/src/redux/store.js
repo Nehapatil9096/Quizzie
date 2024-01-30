@@ -1,12 +1,12 @@
 // src/redux/store.js
 import { configureStore } from '@reduxjs/toolkit';
-import userReducer from './userSlice';
-import quizCountReducer from './quizCountSlice';
+import userSlice from './userSlice.js';
+import quizCountSlice from './quizCountSlice.js';
 
 const store = configureStore({
   reducer: {
-    user: userReducer,
-    quizCount: quizCountReducer,  // Fix: use quizCountReducer here
+    user: userSlice,
+    quizCount: quizCountSlice,  // Fix: use quizCountReducer here
     // Add more reducers if needed
   },
 });
