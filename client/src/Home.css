@@ -11,19 +11,6 @@ body {
 }
 
 /* Sidebar styles */
-.sidebar {
-    background-color: #f8f9fa; /* Adjust background color as needed */
-    height: 625px; /* Make the sidebar full height */
-    display: flex;
-    flex-direction: column; /* Align items vertically */
-    justify-content: space-between; /* Space items evenly */
-    width: 178.344px;
-    padding-bottom: 16px;
-    padding-left: 8px;
-    padding-right: 8px;
-    padding-top: 16px;
-    min-width: 100px;
-}
 
 .sidebar-title {
     font-size: 24px;
@@ -129,12 +116,22 @@ dashboard-block {
   
   .dashboard .overlap {
     background-color: #ececec;
-    height: 832px;
-    left: 193px;
+    height: 1000px;
+      left: 193px;
     position: absolute;
+    top: 0;
+    width: 1189px;
+  }
+  
+  .box .rectangle {
+    background-color: #ececec;
+    height: 832px;
+    left: 0;
+    position: fixed;
     top: 0;
     width: 1087px;
   }
+  
   
   .dashboard .group {
     height: 150px;
@@ -644,7 +641,7 @@ dashboard-block {
     height: 38px;
     left: 0;
     position: absolute;
-    top: 0;
+    top: 200;
     width: 176px;
   }
   
@@ -659,25 +656,24 @@ dashboard-block {
   }
   
   .dashboard .text-wrapper-14 {
-    color: #474343;
-    font-family: "Poppins-SemiBold", Helvetica;
-    font-size: 20px;
-    font-weight: 600;
-    letter-spacing: 0;
-    line-height: normal;
-    margin-top: -1px;
-    position: relative;
-    width: fit-content;
+    background-color: #ffffff;
+    border-radius: 10px;
+    box-shadow: 0px 0px 14px #0000001f;
+    height: 38px;
+    left: 0;
+    position: absolute;
+    top: 50;
+    width: 176px;
   }
   
   .dashboard .text-wrapper-15 {
-    color: #474343;
-    font-family: "Poppins-SemiBold", Helvetica;
-    font-size: 20px;
-    font-weight: 600;
-    letter-spacing: 0;
-    line-height: normal;
-    position: relative;
-    width: fit-content;
+    background-color: #ffffff;
+    border-radius: 10px;
+    box-shadow: 0px 0px 14px #0000001f;
+    height: 38px;
+    left: 0;
+    position: absolute;
+    top: 100px;
+    width: 176px;
   }
   

@@ -219,13 +219,15 @@ function Home() {
             </div>
           </div>
         </div>
-        <div className="rectangle" />
-        <div className="overlap-2">
-          <img className="vector" alt="Vector" src="vector-1.svg" />
-          <div className="text-wrapper-13">QUIZZIE</div>
-          <div className="logout-wrapper">
-            <div className="logout">LOGOUT</div>
-          </div>
+        <div class="rectangle"></div>
+<div class="overlap-2">
+  <img class="vector" alt="Vector" src="vector-1.svg" />
+  <div class="text-wrapper-13">QUIZZIE</div>
+  <div class="logout-wrapper">
+    <a href="/register" class="logout">LOGOUT</a>
+  </div>
+</div>
+
           <div className="group-24">
             <div className="group-25">
               <div className="overlap-group-4">
@@ -246,7 +248,7 @@ function Home() {
   
         </div>
       </div>
-    </div>
+    
   );
 }
 

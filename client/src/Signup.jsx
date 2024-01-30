@@ -1,4 +1,3 @@
-
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import axios from 'axios';
@@ -37,65 +36,61 @@ function SignUp() {
     return (
         <div className="signup-container">
             <div className="signup-form">
-                <h2 className="signup-title">QUIZZIE</h2>
+                <h2 className="title">Quizzie</h2>
+                <div className="button-container">
+                    <Link to="/signup" className="button">Signup</Link>
+                    <Link to="/login" className="button">Login</Link>
+                </div>
                 <form onSubmit={handleSubmit}>
-                <div className="overlap-group">
-                    <Link to="/signup" className="btn btn-primary me-2">Sign Up</Link>
-                    </div>
-                    <Link to="/login" className="login-button">Login</Link>
-                    <div className="group-2">
-
-                    <div className="form-group-4">
-                        <label htmlFor="fullName" className="form-label"><strong>Name</strong></label>
+                    <div className="input-group">
+                        <label htmlFor="fullName">Name:</label>
                         <input
                             type="text"
                             placeholder="Enter Name"
                             autoComplete="off"
                             name="fullName"
-                            className="form-input"
+                            value={fullName}
                             onChange={(e) => setFullName(e.target.value)}
                         />
                     </div>
-
-                    <div className="form-group-5">
-                        <label htmlFor="email" className="form-label"><strong>Email</strong></label>
+                    <div className="input-group">
+                        <label htmlFor="email">Email:</label>
                         <input
                             type="email"
                             placeholder="Enter Email"
                             autoComplete="off"
                             name="email"
-                            className="form-input"
+                            value={email}
                             onChange={(e) => setEmail(e.target.value)}
                         />
                     </div>
-                    <div className="form-group-6">
-                        <label htmlFor="password" className="form-label"><strong>Password</strong></label>
+                    <div className="input-group">
+                        <label htmlFor="password">Password:</label>
                         <input
                             type="password"
                             placeholder="Enter Password"
                             autoComplete="off"
                             name="password"
-                            className="form-input"
+                            value={password}
                             onChange={(e) => setPassword(e.target.value)}
                         />
                     </div>
-                    <div className="form-group-7">
-                        <label htmlFor="confirmPassword" className="form-label"><strong>Confirm Password</strong></label>
+                    <div className="input-group">
+                        <label htmlFor="confirmPassword">Confirm Password:</label>
                         <input
                             type="password"
                             placeholder="Confirm Password"
                             autoComplete="off"
                             name="confirmPassword"
-                            className="form-input"
+                            value={confirmPassword}
                             onChange={(e) => {
                                 setConfirmPassword(e.target.value);
                                 setPasswordMatchError(false); // Reset error when typing in the confirm password field
                             }}
                         />
-                        {passwordMatchError && <div className="error-message">Passwords do not match</div>}
                     </div>
-                    </div>
-                    <button type="submit" className="signup button">Sign Up</button>
+                    {passwordMatchError && <div className="error-message">Passwords do not match</div>}
+                    <button type="submit" className="signup-button">Sign-up</button>
                 </form>
             </div>
         </div>

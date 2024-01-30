@@ -1,11 +1,12 @@
     import React, { useState } from 'react';
-    //import { useState } from "react";
     import { Link, useNavigate } from "react-router-dom";
     import { useDispatch, useSelector } from 'react-redux';
     import axios from 'axios'
-    //import{ useNavigate} from "react-router-dom"
     import { setUserId } from './redux/userSlice';
     import { setDashboardData } from './redux/userSlice';
+    import AuthPage from './AuthPage';
+    
+
 
     function Login() {
         const [email, setEmail] = useState('');
@@ -37,10 +38,15 @@
             }
             };
         return (
+            <AuthPage title="Quizzie" buttonText="Signup" buttonLink="/signup">
+
             <div>
             <div className="d-flex justify-content-center align-items-center bg-secondary vh-100">
             <div className="bg-white p-3 rounded w-25">
-                <h2>QUIZZIE</h2>
+            <div className="button-container">
+                    <Link to="/register" className="button">Signup</Link>
+                    <Link to="/login" className="button">Login</Link>
+                </div>
                 <form onSubmit={handleSubmit}>
                     <div className="mb-3">
                         <label htmlFor="email">
@@ -70,18 +76,19 @@
 
                         />
                     </div>
-                    <button type="submit" className="btn btn-success w-100 rounded-0">
+                    <button type="submit" className="login-button">
                     Login
                     </button>
                     </form>
-                    <Link to="/login" className=" btn btn-default border w-100 bg-light rounded-0 text-decoration none">
-                        Signup
-                    </Link>
+                        
+                    
                     
                 </div>
 
                 </div>  
             </div>
+            </AuthPage>
+
         );
     }
 
