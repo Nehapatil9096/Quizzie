@@ -14,7 +14,7 @@ import QuizAnalysis from './QuizAnalysis';
 function App() {
   return (
     <Provider store={store}>
-      <Router>
+      <Router basename="/Quizzie"> {/* Set basename to "/Quizzie" */}
         <div>
           <Navigation />
           <Routes>
