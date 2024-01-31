@@ -5,10 +5,10 @@ export default defineConfig({
   // Plugins
   plugins: [react()],
   base: "/Quizzie/",
-  // Explicitly mark react-redux as external
+  // Explicitly mark react-redux and @reduxjs/toolkit as external
   build: {
     rollupOptions: {
-      external: ['react-redux']
+      external: ['react-redux', '@reduxjs/toolkit']
     }
   }
 });
