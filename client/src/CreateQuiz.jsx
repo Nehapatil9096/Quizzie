@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import axios from 'axios';
 import { useSelector, useDispatch } from 'react-redux';
 import { setUserId } from './redux/userSlice';
-import './CeateQuiz.css';
+import './CreateQuiz.css';
 import { incrementQuizCount } from './redux/quizCountSlice';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';

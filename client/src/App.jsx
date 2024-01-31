@@ -20,8 +20,6 @@ function App() {
           <Routes>
             <Route path="/register" element={<Signup />} />
             <Route path="/login" element={<Login />} />
-            <Route path="/" element={<Signup />} /> {/* Default route */}
-
             <Route path="/home" element={<Home />} />
             <Route path="/CreateQuiz" element={<CreateQuiz />} />
             <Route path="/create-quiz" element={<CreateQuizForm />} />
