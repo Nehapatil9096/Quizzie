@@ -8,7 +8,8 @@ export default defineConfig({
   // Explicitly mark react-redux and @reduxjs/toolkit as external
   build: {
     rollupOptions: {
-      external: ['react-redux', '@reduxjs/toolkit']
+      external: ['react-redux', '@reduxjs/toolkit', 'react-toastify']
+
     }
   }
 });
