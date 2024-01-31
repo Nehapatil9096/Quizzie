@@ -11,12 +11,37 @@
   border-radius: 15px;
   box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.2);
   max-width: 500px;
-  margin: 0 auto;
-  height: 400px;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
+  margin: 20px auto; /* Center the modal horizontally */
+  position: absolute; /* Position the modal absolutely */
+  top: 50%; /* Position the modal 50% from the top */
+  left: 50%; /* Position the modal 50% from the left */
+  transform: translate(-50%, -50%); /* Center the modal vertically and horizontally */
+  z-index: 999; /* Set a high z-index to make sure it's on top */
 }
+
+.form-overlay {
+  background-color: rgba(0, 0, 0, 0.5);
+  position: fixed; /* Position the overlay fixed to cover the entire screen */
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 998; /* Set a lower z-index than the modal to make sure it's behind */
+}
+
+.form-overlay-content {
+  background-color: #fff;
+  padding: 30px;
+  border-radius: 10px;
+  text-align: center;
+  font-size: 24px;
+}
+
+/* Add more styles as needed */
+
 
 .group-17 {
   display: flex;
@@ -135,8 +160,22 @@ button:hover {
 /* Add these styles to your existing CSS or create a new CSS file */
 
 /* Step 2 Styles */
+/* Add these styles to your existing CSS or create a new CSS file */
+
+/* Step 2 Styles */
 .step-2-container {
+  background-color: #f5f5f5;
+  border: 1px solid #ccc;
   padding: 20px;
+  border-radius: 15px;
+  box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.2);
+  max-width: 500px;
+  margin: 20px auto; /* Center the container horizontally */
+  position: absolute; /* Position the container absolutely */
+  top: 50%; /* Position the container 50% from the top */
+  left: 50%; /* Position the container 50% from the left */
+  transform: translate(-50%, -50%); /* Center the container vertically and horizontally */
+  z-index: 999; /* Set a high z-index to make sure it's on top */
 }
 
 .question-container {
@@ -155,29 +194,43 @@ button:hover {
   font-style: italic;
 }
 
-/* Add more styles as needed */
-
-/* Common Styles */
 .button-container {
   margin-top: 20px;
 }
 
-/* Add more common styles if required */
-/* Add these styles to your existing CSS or create a new CSS file */
-
-/* Step 2 Info Box Styles */
-.step-2-info-box {
-  background-color: #f5f5f5;
-  border: 1px solid #ccc;
-  padding: 30px;
-  border-radius: 15px;
-  box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.2);
-  max-width: 500px;
-  margin: 0 auto;
-  height: 400px;
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
+/* Common Styles */
+.button-container button {
+  background-color: #3498db;
+  color: #fff;
+  padding: 15px 30px; /* Increase button padding */
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 24px; /* Increase font size */
+  transition: background-color 0.3s ease;
 }
 
-/* Add more styles as needed */
+.button-container button:hover {
+  background-color: #2980b9;
+}
+
+.form-overlay {
+  background-color: rgba(0, 0, 0, 0.5);
+  position: absolute; /* Changed to absolute */
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+
+.form-overlay-content {
+  background-color: #fff;
+  padding: 30px;
+  border-radius: 10px;
+  text-align: center;
+  font-size: 24px; /* Increase font size */
+}

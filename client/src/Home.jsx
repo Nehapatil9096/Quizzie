@@ -77,8 +77,7 @@ function Home() {
 
   return (
     <div className="container">
-      <div className="sidebar">  
-      </div>
+      
       <div className="main-content">
         <div className="dashboard-container">
           {isCreateQuizModalVisible && (
@@ -170,7 +169,7 @@ function Home() {
               <div className="overlap-group-4">
                 <div className="rectangle-2" />
                 <div className="frame">
-                  <div className="text-wrapper-14">Dashboard</div>
+                  <div className="text-wrapper-15"><button>Dashboard</button></div>
                   <div className="text-wrapper-15"><button href="#"  onClick={toggleAnalysis}>
           {isAnalysisVisible ? 'Hide Analysis' : 'Show Analysis'} {/* Toggle button text */}
         </button></div>

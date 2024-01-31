@@ -6,43 +6,29 @@ body {
   font-family: 'Arial', sans-serif;
 }
 
-.container {
+.dashboard-container {
   display: flex;
+  flex-direction: row;
 }
 
-/* Sidebar styles */
 .sidebar {
-  background-color: #f8f9fa; /* Adjust background color as needed */
-  height: 625px; /* Make the sidebar full height */
-  display: flex;
-  flex-direction: column; /* Align items vertically */
-  justify-content: space-between; /* Space items evenly */
-  width: 178.344px;
-  padding-bottom: 16px;
-  padding-left: 8px;
-  padding-right: 8px;
-  padding-top: 16px;
-  min-width: 100px;
-}
-
-.sidebar-title {
-  font-size: 24px;
-  font-weight: bold;
-  margin-bottom: 20px;
+  background-color: #f0f0f0;
+  width: 200px;
 }
 
 .sidebar-button {
   display: block;
   width: 100%;
-  text-align: left;
   padding: 10px;
-  margin-bottom: 10px;
-  text-decoration: none;
-  color: #000;
+  text-align: center;
+  font-size: 16px;
+  border: none;
+  background-color: transparent;
+  cursor: pointer;
 }
 
 .sidebar-button:hover {
-  background-color: #eee;
+  background-color: #e0e0e0;
 }
 
 .logout-button {
@@ -589,13 +575,13 @@ dashboard-block {
 .dashboard .text-wrapper-13 {
   color: #474444;
   font-family: "Jomhuria-Regular", Helvetica;
-  font-size: 70px;
+  font-size: 47px;
   font-weight: 400;
-  left: 31px;
+  left: -4px;
   letter-spacing: 0;
   line-height: normal;
   position: absolute;
-  top: 16px;
+  top: -7px;
   white-space: nowrap;
 }
 
@@ -637,16 +623,7 @@ dashboard-block {
   width: 176px;
 }
 
-.dashboard .rectangle-2 {
-  background-color: #ffffff;
-  border-radius: 10px;
-  box-shadow: 0px 0px 14px #0000001f;
-  height: 38px;
-  left: 0;
-  position: absolute;
-  top: 0;
-  width: 176px;
-}
+
 
 .dashboard .frame {
   align-items: flex-start;
@@ -658,17 +635,7 @@ dashboard-block {
   top: 4px;
 }
 
-.dashboard .text-wrapper-14 {
-  color: #474343;
-  font-family: "Poppins-SemiBold", Helvetica;
-  font-size: 20px;
-  font-weight: 600;
-  letter-spacing: 0;
-  line-height: normal;
-  margin-top: -1px;
-  position: relative;
-  width: fit-content;
-}
+
 
 .dashboard .text-wrapper-15 {
   color: #474343;
@@ -679,4 +646,4 @@ dashboard-block {
   line-height: normal;
   position: relative;
   width: fit-content;
-}
+left: -30px;}
