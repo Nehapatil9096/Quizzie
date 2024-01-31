@@ -5,7 +5,8 @@
     import { setUserId } from './redux/userSlice';
     import { setDashboardData } from './redux/userSlice';
     import AuthPage from './AuthPage';
-    
+    import './Login.css';
+
 
 
     function Login() {

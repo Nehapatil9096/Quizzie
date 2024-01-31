@@ -1,4 +1,3 @@
-
 // frontend/src/QuizAnalysis.jsx
 import React from 'react';
 import "./QuizAnalysis.css";

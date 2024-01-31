@@ -1,14 +1,11 @@
 // App.jsx
-
 import React, { useState, useEffect } from 'react';
 import { BrowserRouter as Router, Routes, Route, useParams } from 'react-router-dom';
 import { Provider } from 'react-redux';
 import store from './redux/store';
-
 import Signup from './Signup';
 import Login from './Login';
 import Home from './Home';
-import CreateQuiz from './CreateQuiz';
 import CreateQuiz from './CreateQuiz';
 import CreateQuizForm from './CreateQuizForm';
 import Navigation from './Navigation';
@@ -17,15 +14,13 @@ import QuizAnalysis from './QuizAnalysis';
 function App() {
   return (
     <Provider store={store}>
-
-      <Router>
+      <Router basename="/Quizzie"> {/* Set basename to "/Quizzie" */}
         <div>
           <Navigation />
           <Routes>
             <Route path="/register" element={<Signup />} />
             <Route path="/login" element={<Login />} />
             <Route path="/" element={<Signup />} /> {/* Default route */}
-
             <Route path="/home" element={<Home />} />
             <Route path="/CreateQuiz" element={<CreateQuiz />} />
             <Route path="/create-quiz" element={<CreateQuizForm />} />
@@ -34,7 +29,6 @@ function App() {
           </Routes>
         </div>
       </Router>
-
     </Provider>
   );
 }

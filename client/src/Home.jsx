@@ -49,14 +49,6 @@ function Home() {
               onCreateQuiz={handleCreateQuiz} // Pass the function to handle quiz creation
             />
           )}
-
-          {/* Display the quiz link if available */}
-          {quizLink && (
-            <div className="dashboard-block">
-              <h3>Quiz Link</h3>
-              <p>{quizLink}</p>
-            </div>
-          )}
           {isnewModalVisible && (
             <CreateQuiz isVisible={isnewModalVisible} onClose={togglenewModal} />
           )}
