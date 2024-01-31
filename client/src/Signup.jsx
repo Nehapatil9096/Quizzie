@@ -2,6 +2,9 @@ import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import axios from 'axios';
 import './Signup.css';  // Import the CSS file
+import { useDispatch, useSelector } from 'react-redux';
+import { setUserId } from './redux/userSlice';
+import { clearUserData, loginSuccess } from './redux/userSlice';
 
 function SignUp() {
     const [fullName, setFullName] = useState("");
@@ -10,9 +13,11 @@ function SignUp() {
     const [confirmPassword, setConfirmPassword] = useState("");
     const [passwordMatchError, setPasswordMatchError] = useState(false);
     const navigate = useNavigate();
+    const dispatch = useDispatch();
 
     const handleSubmit = async (e) => {
         e.preventDefault();
+        dispatch(clearUserData());
 
         if (password !== confirmPassword) {
             setPasswordMatchError(true);
@@ -25,13 +30,42 @@ function SignUp() {
             password
         })
         .then(result => {
-            console.log(result);
+            console.log("API call successfull",result);
+            dispatch(setUserId(email));
             navigate('/home');
+            handleLogin(e);
         })
         .catch(err =>
             console.log("API call error", err));
         
     };
+    const handleLogin = async (e) => {
+        e.preventDefault();
+
+        try {
+            dispatch(clearUserData());
+
+            const response = await axios.post('http://localhost:3001/login', {
+            email,
+            password,
+            });
+
+            if (response.data.message === 'Success') {
+                console.log('Login successful. Server response:', response.data);
+                dispatch(setUserId(email));
+                //dispatch(setDashboardData(response.data.dashboardData));
+                // Store the token in a secure way (you can use localStorage or sessionStorage)
+                localStorage.setItem('token', response.data.token);
+                const token =  response.data.token; // Replace with the actual token
+                dispatch(loginSuccess(token));
+                navigate('/home');
+            } else {
+            console.log('Login unsuccessful. Server response:', response.data);
+            }
+        } catch (error) {
+            console.error(error);
+        }
+        };
 
     return (
         <div className="signup-container">

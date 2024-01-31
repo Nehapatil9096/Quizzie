@@ -1,43 +1,48 @@
-    import React, { useState } from 'react';
-    import { Link, useNavigate } from "react-router-dom";
-    import { useDispatch, useSelector } from 'react-redux';
-    import axios from 'axios'
-    import { setUserId } from './redux/userSlice';
-    import { setDashboardData } from './redux/userSlice';
-    import AuthPage from './AuthPage';
-    import './Login.css';
+import React, { useState } from 'react';
+//import { useState } from "react";
+import { Link, useNavigate } from "react-router-dom";
+import { useDispatch, useSelector } from 'react-redux';
+import axios from 'axios'
+//import{ useNavigate} from "react-router-dom"
+import { setUserId } from './redux/userSlice';
+import { setDashboardData } from './redux/userSlice';
+import { clearUserData, loginSuccess } from './redux/userSlice';
+import AuthPage from './AuthPage';
+import './Login.css';
+function Login() {
+    const [email, setEmail] = useState('');
+    const [password, setPassword] = useState('');
+    const dispatch = useDispatch();
+    const navigate = useNavigate();
+    const userId = useSelector((state) => state.user.userId);
 
+    const handleSubmit = async (e) => {
+        e.preventDefault();
 
+        try {
+            dispatch(clearUserData());
 
-    function Login() {
-        const [email, setEmail] = useState('');
-        const [password, setPassword] = useState('');
-        const dispatch = useDispatch();
-        const navigate = useNavigate();
-        const userId = useSelector((state) => state.user.userId);
-
-        const handleSubmit = async (e) => {
-            e.preventDefault();
-
-            try {
-                const response = await axios.post('http://localhost:3001/login', {
-                email,
-                password,
-                });
-        
-                if (response.data.message === 'Success') {
-                    console.log('Login successful. Server response:', response.data);
-                    dispatch(setUserId(email));
-                    dispatch(setDashboardData(response.data.dashboardData));
-
-                    navigate('/home');
-                } else {
-                console.log('Login unsuccessful. Server response:', response.data);
-                }
-            } catch (error) {
-                console.error(error);
+            const response = await axios.post('http://localhost:3001/login', {
+            email,
+            password,
+            });
+    
+            if (response.data.message === 'Success') {
+                console.log('Login successful. Server response:', response.data);
+                dispatch(setUserId(email));
+                //dispatch(setDashboardData(response.data.dashboardData));
+                // Store the token in a secure way (you can use localStorage or sessionStorage)
+                localStorage.setItem('token', response.data.token);
+                const token =  response.data.token; // Replace with the actual token
+                dispatch(loginSuccess(token));
+                navigate('/home');
+            } else {
+            console.log('Login unsuccessful. Server response:', response.data);
             }
-            };
+        } catch (error) {
+            console.error(error);
+        }
+        };
         return (
             <AuthPage title="Quizzie" buttonText="Signup" buttonLink="/signup">
 

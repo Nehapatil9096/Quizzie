@@ -3,7 +3,6 @@ import axios from 'axios';
 import { useSelector, useDispatch } from 'react-redux';
 import { setUserId } from './redux/userSlice';
 import './CreateQuiz.css';
-import { incrementQuizCount } from './redux/quizCountSlice';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
@@ -18,7 +17,8 @@ function CreateQuiz() {
   const [quizLink, setQuizLink] = useState('');
   const [step, setStep] = useState(1);
   const [showFormOverlay, setShowFormOverlay] = useState(false); 
-
+  
+  
   const handleContinue = () => {
     if (quizName.trim() !== '' && quizType.trim() !== '') {
       setStep(2);
@@ -87,134 +87,122 @@ function CreateQuiz() {
               <div className="group-17">
                 <div className="overlap-4">
                   <div className="text-wrapper-16">
-                    <label htmlFor="quizName">Quiz Name:</label>
+                    <label htmlFor="quizName"></label>
                     <input
-                      type="text"
-                      id="quizName"
-                      value={quizName}
-                      onChange={(e) => setQuizName(e.target.value)}
+                        type="text"
+                         id="quizName"
+                         placeholder="Quiz Name"
+                          value={quizName}
+                          onChange={(e) => setQuizName(e.target.value)}
                     />
                   </div>
                 </div>
                 <div className="group-18">
-                  <div className="overlap-5">
-                    <div className="text-wrapper-17">
-                      <label htmlFor="quizType">Quiz Type:</label>
-                      <select
-                        id="quizType"
-                        value={quizType}
-                        onChange={(e) => setQuizType(e.target.value)}
+                  <div className="text-wrapper-17">
+                    <label htmlFor="quizType">Quiz Type:</label>
+                 </div>
+                      <div className="button-wrapper">
+                 <button
+                         className={`quiz-type-button ${quizType === 'Q&A' ? 'active' : ''}`}
+                       onClick={() => setQuizType('Q&A')}
                       >
-                        <option value="">Select Quiz Type</option>
-                        <option value="Q&A">Q&A</option>
-                        <option value="Poll">Poll</option>
-                      </select>
-                    </div>
-                  </div>
-                  <div className="q-a-wrapper">
-                    <div className="q-a">Q&A</div>
-                  </div>
-                  <div className="text-wrapper-18">Quiz Type</div>
-                </div>
-              </div>
-              <label htmlFor="timerEnabled">Timer:</label>
-              <input
-                type="checkbox"
-                id="timerEnabled"
-                checked={timerEnabled}
-                onChange={() => setTimerEnabled(!timerEnabled)}
-              />
-              <label htmlFor="timerEnabled">On/Off</label>
-              {timerEnabled && (
-                <div>
-                  <label htmlFor="timerDuration">Timer Duration:</label>
-                  <select
-                    id="timerDuration"
-                    value={timerDuration}
-                    onChange={(e) => setTimerDuration(parseInt(e.target.value))}
-                  >
-                    <option value="5">5 sec</option>
-                    <option value="10">10 sec</option>
-                  </select>
-                </div>
-              )}
+                       Q&A
+                         </button>
+                                  <button
+                                  className={`quiz-type-button ${quizType === 'Poll' ? 'active' : ''}`}
+                               onClick={() => setQuizType('Poll')}
+                                           >
+                                  Poll
+                                     </button>
+                                    </div>
+                                </div>
+                        </div>
+             
               <button onClick={handleContinue}>Continue</button>
             </div>
           </div>
         </div>
       )}
 
-      {step === 2 && (
-        <div>
-          
-          <div>
-            <h2>Questions</h2>
-            {questions.map((question, index) => (
-              <div key={index}>
-                <label htmlFor={`questionText-${index}`}>Question {index + 1}:</label>
-                <input
-                  type="text"
-                  id={`questionText-${index}`}
-                  value={question.questionText}
-                  onChange={(e) => {
-                    const updatedQuestions = [...questions];
-                    updatedQuestions[index].questionText = e.target.value;
-                    setQuestions(updatedQuestions);
-                  }}
-                />
-                <br />
-                {question.options.map((option, optionIndex) => (
-                  <div key={optionIndex}>
-                    <label htmlFor={`option-${index}-${optionIndex}`}>
-                      Option {optionIndex + 1}:
-                    </label>
-                    <input
-                      type="text"
-                      id={`option-${index}-${optionIndex}`}
-                      value={option}
-                      onChange={(e) => {
-                        const updatedQuestions = [...questions];
-                        updatedQuestions[index].options[optionIndex] = e.target.value;
-                        setQuestions(updatedQuestions);
-                      }}
-                    />
-                  </div>
-                ))}
-                <label htmlFor={`correctOption-${index}`}>Correct Option:</label>
-                <select
-                  id={`correctOption-${index}`}
-                  value={question.correctOption}
-                  onChange={(e) => {
-                    const updatedQuestions = [...questions];
-                    updatedQuestions[index].correctOption = Number(e.target.value);
-                    setQuestions(updatedQuestions);
-                  }}
-                >
-                  {question.options.map((_, optionIndex) => (
-                    <option key={optionIndex} value={optionIndex}>
-                      Option {optionIndex + 1}
-                    </option>
-                  ))}
-                </select>
-                <button onClick={() => handleDeleteQuestion(index)}>Delete Question</button>
-                <hr />
-              </div>
-            ))}
-            <button onClick={handleAddQuestion} disabled={questions.length >= 5}>
-              Add Question
-            </button>
-          </div>
-          <button onClick={handleSaveQuiz}>Save Quiz</button>
-          {quizLink && (
-            <div>
-              <h2>Congrats! Your Quiz is Published!</h2>
-     
-              <p>{quizLink}</p>
-              <button onClick={handleCopyLink}>Share</button>
+
+{step === 2 && (
+  <div className="step-2-container">
+    <div>
+      <h2>Questions</h2>
+      {questions.map((question, index) => (
+        <div key={index} className="question-container">
+          <label htmlFor={`questionText-${index}`} className="question-label">
+            Question {index + 1}:
+          </label>
+          {/* Add more class names to other elements as needed */}
+          <input
+            type="text"
+            id={`questionText-${index}`}
+            value={question.questionText}
+            onChange={(e) => {
+              const updatedQuestions = [...questions];
+              updatedQuestions[index].questionText = e.target.value;
+              setQuestions(updatedQuestions);
+            }}
+          />
+          <br />
+          {question.options.map((option, optionIndex) => (
+            <div key={optionIndex} className="option-container">
+              <label htmlFor={`option-${index}-${optionIndex}`}>
+                Option {optionIndex + 1}:
+              </label>
+              <input
+                type="text"
+                id={`option-${index}-${optionIndex}`}
+                value={option}
+                onChange={(e) => {
+                  const updatedQuestions = [...questions];
+                  updatedQuestions[index].options[optionIndex] = e.target.value;
+                  setQuestions(updatedQuestions);
+                }}
+              />
             </div>
-          )}
+          ))}
+          <label htmlFor={`correctOption-${index}`} className="correct-option-label">
+            Correct Option:
+          </label>
+          {/* Add more class names to other elements as needed */}
+          <select
+            id={`correctOption-${index}`}
+            value={question.correctOption}
+            onChange={(e) => {
+              const updatedQuestions = [...questions];
+              updatedQuestions[index].correctOption = Number(e.target.value);
+              setQuestions(updatedQuestions);
+            }}
+          >
+            {question.options.map((_, optionIndex) => (
+              <option key={optionIndex} value={optionIndex}>
+                Option {optionIndex + 1}
+              </option>
+            ))}
+          </select>
+          <button onClick={() => handleDeleteQuestion(index)}>Delete Question</button>
+          <hr />
+        </div>
+      ))}
+      <button onClick={handleAddQuestion} disabled={questions.length >= 5}>
+        Add Question
+      </button>
+    </div>
+    <div className="button-container">
+      <button onClick={handleSaveQuiz}>Save Quiz</button>
+      {quizLink && (
+        <div>
+          <h2>Congrats! Your Quiz is Published!</h2>
+          <p>{quizLink}</p>
+          <button onClick={handleCopyLink}>Share</button>
         </div>
       )}
+    </div>
+  </div>
+)}
+
 
       {showFormOverlay && (
         <div className="form-overlay">

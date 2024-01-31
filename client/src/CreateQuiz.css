@@ -1,89 +1,183 @@
+/* CeateQuiz.css */
 .create-quiz {
-    background-color: #ffffff;
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    width: 100%;
-  }
-  
-  .create-quiz .div {
-    background-color: #ffffff;
-    height: 832px;
-    overflow: hidden;
-    position: relative;
-    width: 1280px;
-  }
-  
-  .create-quiz .overlap {
-    height: 832px;
-    left: 0;
-    position: absolute;
-    top: 0;
-    width: 1280px;
-  }
-  
-  .create-quiz .rectangle {
-    background-color: #ececec;
-    height: 832px;
-    left: 193px;
-    position: absolute;
-    top: 0;
-    width: 1087px;
-  }
-  
-  .create-quiz .text-wrapper {
-    color: #4f76ff;
-    font-family: "Poppins", Helvetica;
-    font-size: 50px;
-    font-weight: 600;
-    left: 567px;
-    letter-spacing: 0;
-    line-height: normal;
-    position: absolute;
-    top: 59px;
-  }
-  
-  .create-quiz .group {
-    height: 360px;
-    left: 272px;
-    position: absolute;
-    top: 236px;
-    width: 929px;
-  }
-  
-  .create-quiz .overlap-group {
-    height: 360px;
-    position: relative;
-  }
-  
-  .create-quiz .rectangle-2 {
-    background-color: #4f76ff;
-    border-radius: 10px;
-    height: 35px;
-    left: 4px;
-    position: absolute;
-    top: 1px;
-    width: 925px;
-  }
-  
-  .create-quiz .rectangle-3 {
-    background-color: #b2c3ff;
-    border-radius: 10px;
-    height: 39px;
-    left: 0;
-    position: absolute;
-    top: 80px;
-    width: 925px;
-  }
-  
-  .create-quiz .group-2 {
-    background-color: #b2c3ff;
-    border-radius: 10px;
-    height: 39px;
-    left: 0;
-    position: absolute;
-    top: 163px;
-    width: 925px;
-  }
-  
-  /* Add more styles as needed */
+  font-family: 'Arial', sans-serif;
+  margin: 20px;
+}
+
+.rectangle-6 {
+  background-color: #f5f5f5;
+  border: 1px solid #ccc;
+  padding: 30px;
+  border-radius: 15px;
+  box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.2);
+  max-width: 500px;
+  margin: 0 auto;
+  height: 400px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.group-17 {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 30px;
+}
+
+.group-18 {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.q-a-wrapper {
+  background-color: #3498db;
+  color: #fff;
+  padding: 8px 15px;
+  border-radius: 8px;
+}
+
+.text-wrapper-16,
+.text-wrapper-17,
+.text-wrapper-18 {
+  margin-bottom: 15px;
+  font-size: 24px; /* Increase font size */
+}
+
+.text-wrapper-16 input {
+  padding: 15px; /* Increase input padding */
+  border: 1px solid #ccc;
+  border-radius: 8px;
+  font-size: 20px; /* Increase input font size */
+  width: 100%;
+}
+
+.text-wrapper-16 input::placeholder {
+  color: #aaa;
+}
+
+.q-a {
+  font-size: 20px; /* Increase font size */
+  font-weight: bold;
+}
+
+.button-wrapper {
+  display: flex;
+}
+
+.quiz-type-button {
+  background-color: #3498db;
+  color: #fff;
+  padding: 15px 20px; /* Increase button padding */
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 20px;
+  margin-right: 10px;
+  margin-left: 100px;
+  transition: background-color 0.3s ease;
+}
+
+.quiz-type-button:hover {
+  background-color: #2980b9;
+}
+
+.quiz-type-button.active {
+  background-color: #2980b9;
+}
+
+.text-wrapper-17 {
+  margin-bottom: 15px;
+  font-size: 24px; /* Increase font size */
+}
+
+.label-quiz-type {
+  display: inline-block;
+  margin-right: 10px;
+}
+
+button {
+  background-color: #3498db;
+  color: #fff;
+  padding: 15px 30px; /* Increase button padding */
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  font-size: 24px; /* Increase font size */
+  transition: background-color 0.3s ease;
+}
+
+button:hover {
+  background-color: #2980b9;
+}
+
+.form-overlay {
+  background-color: rgba(0, 0, 0, 0.5);
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.form-overlay-content {
+  background-color: #fff;
+  padding: 30px;
+  border-radius: 10px;
+  text-align: center;
+  font-size: 24px; /* Increase font size */
+}
+
+/* Add more styles as needed */
+/* Add these styles to your existing CSS or create a new CSS file */
+
+/* Step 2 Styles */
+.step-2-container {
+  padding: 20px;
+}
+
+.question-container {
+  margin-bottom: 20px;
+}
+
+.question-label {
+  font-weight: bold;
+}
+
+.option-container {
+  margin-bottom: 10px;
+}
+
+.correct-option-label {
+  font-style: italic;
+}
+
+/* Add more styles as needed */
+
+/* Common Styles */
+.button-container {
+  margin-top: 20px;
+}
+
+/* Add more common styles if required */
+/* Add these styles to your existing CSS or create a new CSS file */
+
+/* Step 2 Info Box Styles */
+.step-2-info-box {
+  background-color: #f5f5f5;
+  border: 1px solid #ccc;
+  padding: 30px;
+  border-radius: 15px;
+  box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.2);
+  max-width: 500px;
+  margin: 0 auto;
+  height: 400px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+/* Add more styles as needed */

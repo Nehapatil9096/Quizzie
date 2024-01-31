@@ -7,7 +7,6 @@ import Signup from './Signup';
 import Login from './Login';
 import Home from './Home';
 import CreateQuiz from './CreateQuiz';
-import CreateQuizForm from './CreateQuizForm';
 import Navigation from './Navigation';
 import QuizAnalysis from './QuizAnalysis';
 
@@ -23,7 +22,6 @@ function App() {
             <Route path="/" element={<Signup />} /> {/* Default route */}
             <Route path="/home" element={<Home />} />
             <Route path="/CreateQuiz" element={<CreateQuiz />} />
-            <Route path="/create-quiz" element={<CreateQuizForm />} />
             <Route path="/analytics" element={<QuizAnalysis />} />
             <Route path="/quiz/:userId/:quizName" element={<QuizViewer />} />
           </Routes>

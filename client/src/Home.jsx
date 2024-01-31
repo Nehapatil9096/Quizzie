@@ -2,14 +2,19 @@ import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import './Home.css';
-import CreateQuizForm from './CreateQuizForm';
 import CreateQuiz from './CreateQuiz';
 import QuizAnalysis from './QuizAnalysis';
+import axios from 'axios';
 
 
 function Home() {
-  const dashboardData = useSelector((state) => state.user.dashboardData);
-
+  const [dashboardData, setDashboardData] = useState({
+    numberOfQuizzes: 0,
+    totalQuestionsInQuizzes: 0,
+    totalImpressions: 0,
+  });
+  //const dashboardData = useSelector((state) => state.user.dashboardData);
+  const token = useSelector((state) => state.user.token);
   const userId = useSelector((state) => state.user.userId);
 
   const [isCreateQuizModalVisible, setCreateQuizModalVisibility] = useState(false);
@@ -21,6 +26,7 @@ function Home() {
   const toggleCreateQuizModal = () => {
     setCreateQuizModalVisibility(!isCreateQuizModalVisible);
   };
+  const [trendingQuizzes, setTrendingQuizzes] = useState([]);
 
   const togglenewModal = () => {
     setnewModalVisibility(!isnewModalVisible);
@@ -29,8 +35,45 @@ function Home() {
   const toggleAnalysis = () => {
     setAnalysisVisibility(!isAnalysisVisible); // Toggle the visibility state
   };
+  useEffect(() => {
+    const fetchTrendingQuizzes = async () => {
+        try {
+            const response = await axios.get('http://localhost:3001/trending-quizzes', {
+                headers: {
+                    Authorization: `Bearer ${token}`,
+                },
+            });
 
- 
+            setTrendingQuizzes(response.data);
+        } catch (error) {
+            console.error('Error fetching trending quizzes:', error);
+        }
+    };
+
+    fetchTrendingQuizzes();
+}, [token, userId]);
+
+
+  useEffect(() => {
+    const fetchDashboardData = async () => {
+      try {
+        if (!token) {
+          console.log('TOKEN IS MISSING, TOKEN',token);
+              return;}
+        const response = await axios.get('http://localhost:3001/dashboard', {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        });
+
+        setDashboardData(response.data);
+      } catch (error) {
+        console.error('Error fetching dashboard data:', error);
+      }
+    };
+
+    fetchDashboardData();
+  }, [token]);
 
   return (
     <div className="container">
@@ -39,15 +82,7 @@ function Home() {
       <div className="main-content">
         <div className="dashboard-container">
           {isCreateQuizModalVisible && (
-            <CreateQuizForm
-              isVisible={isCreateQuizModalVisible}
-              onClose={() => {
-                setCreateQuizModalVisibility(false);
-                // Reset the quiz link when the modal is closed
-                setQuizLink(null);
-              }}
-              onCreateQuiz={handleCreateQuiz} // Pass the function to handle quiz creation
-            />
+            <CreateQuizForm isVisible={isCreateQuizModalVisible} onClose={toggleCreateQuizModal} />
           )}
           {isnewModalVisible && (
             <CreateQuiz isVisible={isnewModalVisible} onClose={togglenewModal} />
@@ -103,139 +138,33 @@ function Home() {
               </div>
             </div>
           </div>
-          <div className="group-9">
-            <div className="text-wrapper-10">Trending Quizs</div>
-            <div className="group-10">
-              <div className="group-11">
-                <div className="text-wrapper-11">Quiz 1</div>
-                <p className="p">Created on : 04 Sep, 2023</p>
-                <div className="group-12">
-                  <div className="text-wrapper-12">667</div>
-                  <img className="icon-park-outline" alt="Icon park outline" src="icon-park-outline-eyes-2.svg" />
+          {isDashboardVisible && (
+    <div className="dashboard">
+        <div className="group-9">
+            <div className="text-wrapper-10">Trending Quizzes</div>
+            {trendingQuizzes.map((quiz) => (
+                <div key={quiz._id} className="group-10">
+                    <div className="group-11">
+                        <div className="text-wrapper-11">{quiz.title}</div>
+                        <p className="p">Created on: {quiz.createdAt}</p>
+                        <div className="group-12">
+                            <div className="text-wrapper-12">{quiz.impressions}</div>
+                            <img className="icon-park-outline" alt="Icon park outline" src={quiz.icon} />
+                        </div>
+                    </div>
                 </div>
-              </div>
-            </div>
-            <div className="group-13">
-              <div className="group-11">
-                <div className="text-wrapper-11">Quiz 1</div>
-                <p className="p">Created on : 04 Sep, 2023</p>
-                <div className="group-12">
-                  <div className="text-wrapper-12">667</div>
-                  <img className="icon-park-outline" alt="Icon park outline" src="icon-park-outline-eyes-6.svg" />
-                </div>
-              </div>
-            </div>
-            <div className="group-14">
-              <div className="group-11">
-                <div className="text-wrapper-11">Quiz 1</div>
-                <p className="p">Created on : 04 Sep, 2023</p>
-                <div className="group-12">
-                  <div className="text-wrapper-12">667</div>
-                  <img className="icon-park-outline" alt="Icon park outline" src="icon-park-outline-eyes-10.svg" />
-                </div>
-              </div>
-            </div>
-            <div className="group-15">
-              <div className="group-11">
-                <div className="text-wrapper-11">Quiz 1</div>
-                <p className="p">Created on : 04 Sep, 2023</p>
-                <div className="group-12">
-                  <div className="text-wrapper-12">667</div>
-                  <img className="icon-park-outline" alt="Icon park outline" src="icon-park-outline-eyes-3.svg" />
-                </div>
-              </div>
-            </div>
-            <div className="group-16">
-              <div className="group-11">
-                <div className="text-wrapper-11">Quiz 1</div>
-                <p className="p">Created on : 04 Sep, 2023</p>
-                <div className="group-12">
-                  <div className="text-wrapper-12">667</div>
-                  <img className="icon-park-outline" alt="Icon park outline" src="icon-park-outline-eyes-7.svg" />
-                </div>
-              </div>
-            </div>
-            <div className="group-17">
-              <div className="group-11">
-                <div className="text-wrapper-11">Quiz 1</div>
-                <p className="p">Created on : 04 Sep, 2023</p>
-                <div className="group-12">
-                  <div className="text-wrapper-12">667</div>
-                  <img className="icon-park-outline" alt="Icon park outline" src="icon-park-outline-eyes-11.svg" />
-                </div>
-              </div>
-            </div>
-            <div className="group-18">
-              <div className="group-11">
-                <div className="text-wrapper-11">Quiz 1</div>
-                <p className="p">Created on : 04 Sep, 2023</p>
-                <div className="group-12">
-                  <div className="text-wrapper-12">667</div>
-                  <img className="icon-park-outline" alt="Icon park outline" src="icon-park-outline-eyes-4.svg" />
-                </div>
-              </div>
-            </div>
-            <div className="group-19">
-              <div className="group-11">
-                <div className="text-wrapper-11">Quiz 1</div>
-                <p className="p">Created on : 04 Sep, 2023</p>
-                <div className="group-12">
-                  <div className="text-wrapper-12">667</div>
-                  <img className="icon-park-outline" alt="Icon park outline" src="icon-park-outline-eyes-8.svg" />
-                </div>
-              </div>
-            </div>
-            <div className="group-20">
-              <div className="group-11">
-                <div className="text-wrapper-11">Quiz 1</div>
-                <p className="p">Created on : 04 Sep, 2023</p>
-                <div className="group-12">
-                  <div className="text-wrapper-12">667</div>
-                  <img className="icon-park-outline" alt="Icon park outline" src="icon-park-outline-eyes.svg" />
-                </div>
-              </div>
-            </div>
-            <div className="group-21">
-              <div className="group-11">
-                <div className="text-wrapper-11">Quiz 1</div>
-                <p className="p">Created on : 04 Sep, 2023</p>
-                <div className="group-12">
-                  <div className="text-wrapper-12">667</div>
-                  <img className="icon-park-outline" alt="Icon park outline" src="icon-park-outline-eyes-5.svg" />
-                </div>
-              </div>
-            </div>
-            <div className="group-22">
-              <div className="group-11">
-                <div className="text-wrapper-11">Quiz 1</div>
-                <p className="p">Created on : 04 Sep, 2023</p>
-                <div className="group-12">
-                  <div className="text-wrapper-12">667</div>
-                  <img className="icon-park-outline" alt="Icon park outline" src="icon-park-outline-eyes-9.svg" />
-                </div>
-              </div>
-            </div>
-            <div className="group-23">
-              <div className="group-11">
-                <div className="text-wrapper-11">Quiz 1</div>
-                <p className="p">Created on : 04 Sep, 2023</p>
-                <div className="group-12">
-                  <div className="text-wrapper-12">667</div>
-                  <img className="icon-park-outline" alt="Icon park outline" src="image.svg" />
-                </div>
-              </div>
-            </div>
-          </div>
+            ))}
         </div>
-        <div class="rectangle"></div>
-<div class="overlap-2">
-  <img class="vector" alt="Vector" src="vector-1.svg" />
-  <div class="text-wrapper-13">QUIZZIE</div>
-  <div class="logout-wrapper">
-    <a href="/register" class="logout">LOGOUT</a>
-  </div>
-</div>
-
+    </div>
+)}
+        </div>
+        <div className="rectangle" />
+        <div className="overlap-2">
+          <img className="vector" alt="Vector" src="vector-1.svg" />
+          <div className="text-wrapper-13">QUIZZIE</div>
+          <div class="logout-wrapper">
+            <a href="/register" class="logout">LOGOUT</a>
+          </div>
           <div className="group-24">
             <div className="group-25">
               <div className="overlap-group-4">
@@ -245,7 +174,7 @@ function Home() {
                   <div className="text-wrapper-15"><button href="#"  onClick={toggleAnalysis}>
           {isAnalysisVisible ? 'Hide Analysis' : 'Show Analysis'} {/* Toggle button text */}
         </button></div>
-                  <div className="text-wrapper-15">  <button  onClick={togglenewModal}>New</button></div>
+                  <div className="text-wrapper-15">  <button  onClick={togglenewModal}>Create Quiz</button></div>
                 </div>
               </div>
             </div>
@@ -256,7 +185,7 @@ function Home() {
   
         </div>
       </div>
-    
+    </div>
   );
 }
 
