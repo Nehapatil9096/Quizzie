@@ -16,27 +16,50 @@ function CreateQuiz() {
   const dispatch = useDispatch();
   const [quizLink, setQuizLink] = useState('');
   const [step, setStep] = useState(1);
-  const [showFormOverlay, setShowFormOverlay] = useState(false); 
-  
-  
+  const [showFormOverlay, setShowFormOverlay] = useState(false);
+
   const handleContinue = () => {
     if (quizName.trim() !== '' && quizType.trim() !== '') {
       setStep(2);
     }
   };
-
-  const openStepTwoPopup = () => {
-    console.log('Popup opened for step 2');
+  const chandleCancel = () => {
+    setStep(3);
+    setQuizName('');
+    setQuizType('');
+    setQuestions([]);
+    setTimerEnabled(false);
+    setTimerDuration(5);
+    setQuizLink('');
+    setShowFormOverlay(false); // Close the popup
   };
+  
 
   const handleAddQuestion = () => {
     if (questions.length < 5) {
       setQuestions([
         ...questions,
-        { questionText: '', options: ['', '', '', ''], correctOption: 0 },
+        {
+          questionText: '',
+          options: [
+            { optionText: '', optionType: 'text', imageUrl: '', deleteButton: false },
+            { optionText: '', optionType: 'text', imageUrl: '', deleteButton: false },
+            { optionText: '', optionType: 'text', imageUrl: '', deleteButton: false },
+            { optionText: '', optionType: 'text', imageUrl: '', deleteButton: false },
+          ],
+          correctOption: 0,
+          timer: { enabled: false, duration: 5 },
+        },
       ]);
     }
   };
+
+  const handleDeleteOption = (questionIndex, optionIndex) => {
+    const updatedQuestions = [...questions];
+    updatedQuestions[questionIndex].options.splice(optionIndex, 1);
+    setQuestions(updatedQuestions);
+  };
+  
 
   const handleDeleteQuestion = (index) => {
     const updatedQuestions = [...questions];
@@ -76,7 +99,6 @@ function CreateQuiz() {
   const handleCloseOverlay = () => {
     setShowFormOverlay(false);
   };
-
   const handleCancel = () => {
     setStep(1);
     setQuizName('');
@@ -99,11 +121,11 @@ function CreateQuiz() {
                   <div className="text-wrapper-16">
                     <label htmlFor="quizName"></label>
                     <input
-                      type="text"
-                      id="quizName"
-                      placeholder="Quiz Name"
-                      value={quizName}
-                      onChange={(e) => setQuizName(e.target.value)}
+                        type="text"
+                         id="quizName"
+                         placeholder="Quiz Name"
+                          value={quizName}
+                          onChange={(e) => setQuizName(e.target.value)}
                     />
                   </div>
                 </div>
@@ -111,30 +133,32 @@ function CreateQuiz() {
                   <div className="text-wrapper-17">
                     <label htmlFor="quizType">Quiz Type:</label>
                  </div>
-                 <div className="button-wrapper">
-                   <button
-                     className={`quiz-type-button ${quizType === 'Q&A' ? 'active' : ''}`}
-                     onClick={() => setQuizType('Q&A')}
-                   >
-                     Q&A
-                   </button>
-                   <button
-                     className={`quiz-type-button ${quizType === 'Poll' ? 'active' : ''}`}
-                     onClick={() => setQuizType('Poll')}
-                   >
-                     Poll
-                   </button>
-                 </div>
-               </div>
-             </div>
+                      <div className="button-wrapper">
+                 <button
+                         className={`quiz-type-button ${quizType === 'Q&A' ? 'active' : ''}`}
+                       onClick={() => setQuizType('Q&A')}
+                      >
+                       Q&A
+                         </button>
+                                  <button
+                                  className={`quiz-type-button ${quizType === 'Poll' ? 'active' : ''}`}
+                               onClick={() => setQuizType('Poll')}
+                                           >
+                                  Poll
+                                     </button>
+                                    </div>
+                                </div>
+                        </div>
              
               <button onClick={handleContinue}>Continue</button>
+              <button onClick={chandleCancel}>Cancel</button>
+
             </div>
           </div>
         </div>
       )}
 
-      {step === 2 && (
+{step === 2 && (
         <div className="step-2-container">
           <div>
             <h2>Questions</h2>
@@ -154,23 +178,83 @@ function CreateQuiz() {
                   }}
                 />
                 <br />
+                <label htmlFor={`optionType-${index}`}>
+                  Option Type:
+                </label>
+                <select
+                  id={`optionType-${index}`}
+                  value={question.optionType}
+                  onChange={(e) => {
+                    const updatedQuestions = [...questions];
+                    updatedQuestions[index].optionType = e.target.value;
+                    setQuestions(updatedQuestions);
+                  }}
+                >
+                  <option value="text">Text</option>
+                  <option value="image">Image</option>
+                  <option value="textAndImage">Both Text & Image</option>
+                </select>
+
                 {question.options.map((option, optionIndex) => (
                   <div key={optionIndex} className="option-container">
                     <label htmlFor={`option-${index}-${optionIndex}`}>
                       Option {optionIndex + 1}:
                     </label>
-                    <input
-                      type="text"
-                      id={`option-${index}-${optionIndex}`}
-                      value={option}
-                      onChange={(e) => {
-                        const updatedQuestions = [...questions];
-                        updatedQuestions[index].options[optionIndex] = e.target.value;
-                        setQuestions(updatedQuestions);
-                      }}
-                    />
+                    {!(question.optionType === 'image' || question.optionType === 'textAndImage') && (
+                      <input
+                        type="text"
+                        id={`option-${index}-${optionIndex}`}
+                        value={option.optionText}
+                        onChange={(e) => {
+                          const updatedQuestions = [...questions];
+                          updatedQuestions[index].options[optionIndex].optionText = e.target.value;
+                          setQuestions(updatedQuestions);
+                        }}
+                      />
+                    )}
+                    {(question.optionType === 'image' || question.optionType === 'textAndImage') && (
+                      <>
+                        <label htmlFor={`imageUrl-${index}-${optionIndex}`}>
+                          Image URL:
+                        </label>
+                        <input
+                          type="text"
+                          id={`imageUrl-${index}-${optionIndex}`}
+                          value={option.imageUrl}
+                          onChange={(e) => {
+                            const updatedQuestions = [...questions];
+                            updatedQuestions[index].options[optionIndex].imageUrl = e.target.value;
+                            setQuestions(updatedQuestions);
+                          }}
+                        />
+                        <br />
+                        {question.optionType === 'textAndImage' && (
+                          <label htmlFor={`optionText-${index}-${optionIndex}`}>
+                            Option Text:
+                          </label>
+                        )}
+                        {question.optionType === 'textAndImage' && (
+                          <input
+                            type="text"
+                            id={`optionText-${index}-${optionIndex}`}
+                            value={option.optionText}
+                            onChange={(e) => {
+                              const updatedQuestions = [...questions];
+                              updatedQuestions[index].options[optionIndex].optionText = e.target.value;
+                              setQuestions(updatedQuestions);
+                            }}
+                          />
+                        )}
+                      </>
+                    )}
+                    {optionIndex >= 2 && (
+                      <button onClick={() => handleDeleteOption(index, optionIndex)}>
+                        Delete Option
+                      </button>
+                    )}
                   </div>
                 ))}
+
                 <label htmlFor={`correctOption-${index}`} className="correct-option-label">
                   Correct Option:
                 </label>
@@ -189,25 +273,66 @@ function CreateQuiz() {
                     </option>
                   ))}
                 </select>
-                <button onClick={() => handleDeleteQuestion(index)}>Delete Question</button>
+                <br />
+                <label htmlFor={`timerEnabled-${index}`}>
+                  Enable Timer:
+                </label>
+                {!question.pollType && (
+                  <input
+                    type="checkbox"
+                    id={`timerEnabled-${index}`}
+                    checked={question.timer.enabled}
+                    onChange={(e) => {
+                      const updatedQuestions = [...questions];
+                      updatedQuestions[index].timer.enabled = e.target.checked;
+                      setQuestions(updatedQuestions);
+                    }}
+                  />
+                )}
+                {!question.pollType && question.timer.enabled && (
+                  <>
+                    <label htmlFor={`timerDuration-${index}`}>
+                      Timer Duration:
+                    </label>
+                    <select
+                      id={`timerDuration-${index}`}
+                      value={question.timer.duration}
+                      onChange={(e) => {
+                        const updatedQuestions = [...questions];
+                        updatedQuestions[index].timer.duration = Number(e.target.value);
+                        setQuestions(updatedQuestions);
+                      }}
+                    >
+                      <option value={5}>5 seconds</option>
+                      <option value={10}>10 seconds</option>
+                    </select>
+                  </>
+                )}
                 <hr />
+
+                <button onClick={() => handleDeleteQuestion(index)}>
+                  Delete Question
+                </button>
               </div>
             ))}
+
             <button onClick={handleAddQuestion} disabled={questions.length >= 5}>
               Add Question
             </button>
           </div>
+
           <div className="button-container">
             <button onClick={handleSaveQuiz}>Save Quiz</button>
             <button onClick={handleCancel}>Cancel</button>
+
+            {quizLink && (
+              <div>
+                <h2>Congrats! Your Quiz is Published!</h2>
+                <p>{quizLink}</p>
+                <button onClick={handleCopyLink}>Share</button>
+              </div>
+            )}
           </div>
-          {quizLink && (
-            <div className="published-quiz-info">
-              <h2>Congrats! Your Quiz is Published!</h2>
-              <p>{quizLink}</p>
-              <button onClick={handleCopyLink}>Share</button>
-            </div>
-          )}
         </div>
       )}
 

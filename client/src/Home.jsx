@@ -25,6 +25,7 @@ function Home() {
 
   const toggleCreateQuizModal = () => {
     setCreateQuizModalVisibility(!isCreateQuizModalVisible);
+    
   };
   const [trendingQuizzes, setTrendingQuizzes] = useState([]);
 
@@ -187,5 +188,6 @@ function Home() {
     </div>
   );
 }
+
 
 export default Home;

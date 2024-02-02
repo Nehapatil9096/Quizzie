@@ -3,6 +3,37 @@ const mongoose = require('mongoose');
 const express = require('express');
 const router = express.Router();
 
+const questionSchema = new mongoose.Schema({
+  questionText: String,
+  options: [
+    {
+      optionText: String,
+      optionType: { type: String, enum: ['text', 'image', 'textAndImage'] },
+      imageUrl: String, // Only applicable if optionType is 'image' or 'textAndImage'
+      deleteButton: Boolean, // Only applicable for the last two options
+    }
+  ],
+  correctOption: Number,
+  timer: {
+    enabled: Boolean,
+    duration: { type: Number, default: 0 }, // In seconds
+  },
+});
+
+const quizSchema = new mongoose.Schema({
+  quizName: String,
+  questions: [questionSchema],
+  submissions: [
+    {
+      userAnswers: [Number],
+      correctAnswers: Number,
+      totalQuestions: Number,
+    }
+  ],
+  // Add any other fields you want to track for each quiz
+  impressions: { type: Number, default: 0 },
+});
+
 const userSchema = new mongoose.Schema({
   name: String,
   email: {
@@ -11,31 +42,10 @@ const userSchema = new mongoose.Schema({
     required: true,
   },
   password: String,
-  quizzes: [
-    {
-      quizName: String,
-      questions: [
-        {
-          questionText: String,
-          options: [String],
-          correctOption: Number,
-        }
-      ],
-      submissions: [
-        {
-          userAnswers: [Number],
-          correctAnswers: Number,
-          totalQuestions: Number,
-        }
-      ],
-      // Add any other fields you want to track for each quiz
-      impressions: { type: Number, default: 0 }
-    }
-  ],
+  quizzes: [quizSchema],
 });
 
 userSchema.methods.addQuiz = async function (quizName, questions) {
- 
   const newQuiz = {
     quizName,
     questions,

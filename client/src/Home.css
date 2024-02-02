@@ -6,6 +6,7 @@ body {
   font-family: 'Arial', sans-serif;
 }
 
+
 .dashboard-container {
   display: flex;
   flex-direction: row;
@@ -646,4 +647,9 @@ dashboard-block {
   line-height: normal;
   position: relative;
   width: fit-content;
-left: -30px;}
+left: -30px;
+}
+
+.blur-background {
+  filter: blur(5px);
+}

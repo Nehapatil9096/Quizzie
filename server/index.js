@@ -14,7 +14,9 @@ const PORT = process.env.PORT || 3001;
 app.use(express.json());
 app.use(cors());
 
-mongoose.connect("mongodb+srv://admin:uXZ0G61yUBJcEw3U@user.dr2i3ep.mongodb.net/?retryWrites=true&w=majority");
+//mongoose.connect("mongodb+srv://admin:uXZ0G61yUBJcEw3U@user.dr2i3ep.mongodb.net/?retryWrites=true&w=majority");
+//mongodb+srv://admin:<password>@user.dr2i3ep.mongodb.net/
+mongoose.connect("mongodb+srv://admin:uXZ0G61yUBJcEw3U@user.dr2i3ep.mongodb.net/");
 
 app.use(express.static(path.join(__dirname, "../client/dist")));
 
@@ -148,30 +150,43 @@ app.get('/quiz/:userId/:quizName', async (req, res) => {
         await user.save();
 
         let currentQuestionIndex = 0;
-
         const questionsHTML = quiz.questions.map((question, index) => {
-            const optionsHTML = question.options.map((option, optionIndex) => `
-                <button onclick="selectOption(${index}, ${optionIndex}, ${question.correctOption})" class="option-button" id="option${index}_${optionIndex}">
-                    ${option}
-                </button>
-            `).join('');
+            const optionsHTML = question.options.map((option, optionIndex) => {
+                const optionContent = question.optionType === 'textAndImage'
+                    ? `
+                        <div>
+                            <img src="${option.imageUrl}" alt="option-image" style="max-width: 100%; max-height: 100px;" />
+                            <p>${option.optionText}</p>
+                        </div>
+                    `
+                    : option.optionText;
+                    console.log('Option Content:', optionContent); // Debug statement
+
+                return `
+                    <button onclick="selectOption(${index}, ${optionIndex}, ${question.correctOption})" class="option-button" id="option${index}_${optionIndex}">
+                        ${optionContent}
+                    </button>
+                `;
+            }).join('');
 
             const displayedQuestionNumber = index + 1;
             const isLastQuestion = displayedQuestionNumber === quiz.questions.length;
 
             return `
-                <div id="question${index}" class="question-container" style="${index === 0 ? '' : 'display: none;'}">
-                    <p>Question ${displayedQuestionNumber}/${quiz.questions.length}</p>
-                    <p>${question.questionText}</p>
-                    <div class="options-wrapper">
-                        <div class="options-container">${optionsHTML}</div>
-                        <button onclick="${isLastQuestion ? 'submitQuiz()' : `nextQuestion(${index})`}" class="${isLastQuestion ? 'submit-button' : 'next-button'}">${isLastQuestion ? 'Submit Quiz' : 'Next'}</button>
-                    </div>
+            <div id="question${index}" class="question-container" style="${index === 0 ? '' : 'display: none;'}">
+                <p>Question ${displayedQuestionNumber}/${quiz.questions.length}</p>
+                <p>${question.questionText}</p>
+                <div class="options-wrapper">
+                    <div class="options-container">${optionsHTML}</div>
+                    <div class="timer-container" id="timer${index}" style="display:none;"></div>
+                    <button onclick="${isLastQuestion ? 'submitQuiz()' : `nextQuestion(${index})`}" class="${isLastQuestion ? 'submit-button' : 'next-button'}">${isLastQuestion ? 'Submit Quiz' : 'Next'}</button>
                 </div>
-            `;
-        }).join('');
+            </div>
+        `;
+    }).join('');
 
         const styledQuizPage = `
+        <!DOCTYPE html>
             <html>
                 <head>
                     <title>Quiz</title>
@@ -273,6 +288,7 @@ app.get('/quiz/:userId/:quizName', async (req, res) => {
                         let currentQuestionIndex = 0;
                         let userScore = 0;
 
+ 
                         function selectOption(questionIndex, optionIndex, correctOptionIndex) {
                             const options = document.querySelectorAll(\`#question\${questionIndex} .option-button\`);
                             options.forEach(option => option.classList.remove('selected'));
@@ -294,6 +310,9 @@ app.get('/quiz/:userId/:quizName', async (req, res) => {
                             if (currentQuestionIndex < ${quiz.questions.length}) {
                                 const nextQuestion = document.getElementById("question" + currentQuestionIndex);
                                 nextQuestion.style.display = 'block';
+
+                                // Start the timer for the next question
+                                startTimer(${quiz.questions[currentQuestionIndex].timer.duration}, ${currentQuestionIndex});
                             } else {
                                 const submitButton = document.getElementById("submitBtn");
                                 submitButton.style.display = 'block';
@@ -330,6 +349,27 @@ app.get('/quiz/:userId/:quizName', async (req, res) => {
                                 alert('Failed to submit quiz');
                             });
                         }
+                        function startTimer(duration, questionIndex) {
+                            let timer = duration;
+                            const timerElement = document.getElementById(\`timer\${questionIndex}\`);
+
+                            timerElement.style.display = 'block';
+
+                            const timerInterval = setInterval(function () {
+                                timerElement.textContent = timer;
+                                timer--;
+
+                                if (timer < 0) {
+                                    clearInterval(timerInterval);
+
+                                    // Automatically proceed to the next question or submit the quiz
+                                    ${currentQuestionIndex < quiz.questions.length - 1 ? `nextQuestion(${currentQuestionIndex})` : 'submitQuiz()'}
+                                }
+                            }, 1000);
+                        }
+                        
+                        // Start the timer for the first question
+                        startTimer(${quiz.questions[0].timer.duration}, 0);
                     </script>
                 </body>
             </html>
@@ -381,10 +421,13 @@ app.post('/submit-quiz/:quizId', async (req, res) => {
         const { answers } = req.body;
 
         let correctAnswers = 0;
+        let totalTime = 0;
+
         selectedQuiz.questions.forEach((question, index) => {
             if (answers[index] === question.correctOption) {
                 correctAnswers++;
             }
+            totalTime += question.timerDuration || 0; // Add timer duration to total time
         });
 
         await User.updateOne(
