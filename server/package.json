@@ -17,5 +17,10 @@
     "jsonwebtoken": "^9.0.2",
     "mongoose": "^8.1.0",
     "nodemon": "^3.0.2"
+  },
+  "binary": {
+    "module_name": "bcrypt_lib",
+    "module_path": "./node_modules/bcrypt",
+    "host": "https://npm.taobao.org/mirrors/node-pre-gyp"
   }
 }
