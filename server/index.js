@@ -16,7 +16,7 @@ const mongoURL = process.env.MONGODB_URL;
 
 app.use(express.json());
 app.use(cors());
-//SET MONGODB CONNECTION 
+//SET MONGODB 
 mongoose.connect(mongoURL,{
     useNewUrlParser: true,
     useUnifiedTopology: true
