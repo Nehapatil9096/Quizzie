@@ -18,7 +18,7 @@ app.use(express.json());
 app.use(cors());
 //SET MONGODB CONNECTION 
 mongoose.connect(mongoURL,{
-    useNewUrParser: true,
+    useNewUrlParser: true,
     useUnifiedTopology: true
 })
 //mongoose.connect("mongodb+srv://admin:uXZ0G61yUBJcEw3U@user.dr2i3ep.mongodb.net/?retryWrites=true&w=majority");
