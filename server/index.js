@@ -7,17 +7,28 @@ const jwt = require('jsonwebtoken');
 const authenticateToken = require('./middleware/authMiddleware');
 const config = require('./config');
 const { User } = require("./models/User");
+require('dotenv').config();
 
 const app = express();
 const PORT = process.env.PORT || 3001;
+const mongoURL = process.env.MONGODB_URL;
+//const mongoURL = process.env.MONGODB_URL_LOCAL;
 
 app.use(express.json());
 app.use(cors());
-
+//SET MONGODB CONNECTION 
+mongoose.connect(mongoURL,{
+    useNewUrParser: true,
+    useUnifiedTopology: true
+})
 //mongoose.connect("mongodb+srv://admin:uXZ0G61yUBJcEw3U@user.dr2i3ep.mongodb.net/?retryWrites=true&w=majority");
 //mongodb+srv://admin:<password>@user.dr2i3ep.mongodb.net/
-mongoose.connect("mongodb+srv://admin:uXZ0G61yUBJcEw3U@user.dr2i3ep.mongodb.net/");
-
+//mongoose.connect("mongodb+srv://admin:uXZ0G61yUBJcEw3U@user.dr2i3ep.mongodb.net/");
+const db = mongoose.connection;
+db.on('error', console.error.bind(console, 'connection error:'));
+db.once('open', function() {
+  console.log("Connected to the database");
+});
 app.use(express.static(path.join(__dirname, "../client/dist")));
 
 app.post('/register', async (req, res) => {
