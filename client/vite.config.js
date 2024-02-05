@@ -6,7 +6,7 @@ export default defineConfig({
   base: "/Quizzie/",
   build: {
     rollupOptions: {
-      external: ['react-toastify']
+      external: ['react-toastify/dist/ReactToastify.css'] // Add the CSS file path here
     }
   }
 });
