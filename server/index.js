@@ -32,7 +32,7 @@ db.on('error', console.error.bind(console, 'connection error:'));
 db.once('open', function() {
   console.log("Connected to the database");
 });
-app.use(express.static(path.join(__dirname, "../client/dist")));
+app.use(express.static(path.join(__dirname, "../client/dist/assets")));
 
 app.post('/register', async (req, res) => {
     try {
