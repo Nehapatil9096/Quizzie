@@ -4,7 +4,6 @@ import { useSelector, useDispatch } from 'react-redux';
 import { setUserId } from './redux/userSlice';
 import './CreateQuiz.css';
 import { ToastContainer, toast } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
 
 function CreateQuiz() {
   const [quizName, setQuizName] = useState('');
