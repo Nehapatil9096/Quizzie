@@ -3,7 +3,6 @@ import axios from 'axios';
 import { useSelector, useDispatch } from 'react-redux';
 import { setUserId } from './redux/userSlice';
 import './CreateQuiz.css';
-import { ToastContainer, toast } from 'react-toastify';
 
 function CreateQuiz() {
   const [quizName, setQuizName] = useState('');
@@ -92,7 +91,6 @@ function CreateQuiz() {
 
   const handleCopyLink = () => {
     navigator.clipboard.writeText(quizLink);
-    toast.success('Link Copied To Clipboard');
   };
 
   const handleCloseOverlay = () => {
@@ -110,7 +108,6 @@ function CreateQuiz() {
 
   return (
     <div>
-      <ToastContainer />
       {step === 1 && (
         <div className="create-quiz">
           <div className="div">
