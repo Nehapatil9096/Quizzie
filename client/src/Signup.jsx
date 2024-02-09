@@ -24,7 +24,7 @@ function SignUp() {
             return;
         }
 
-        axios.post('http://localhost:3001/register', {
+        axios.post('https://quizzie12343.onrender.com/register', {
             fullName,
             email,
             password
@@ -45,7 +45,7 @@ function SignUp() {
         try {
             dispatch(clearUserData());
 
-            const response = await axios.post('http://localhost:3001/login', {
+            const response = await axios.post('https://quizzie12343.onrender.com/login', {
             email,
             password,
             });

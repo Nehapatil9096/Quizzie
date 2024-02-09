@@ -13,6 +13,9 @@ const app = express();
 const PORT = process.env.PORT || 3001;
 const mongoURL = process.env.MONGODB_URL;
 //const mongoURL = process.env.MONGODB_URL_LOCAL;
+console.log("PORT:", PORT);
+console.log("MongoDB URL:", mongoURL);
+
 
 app.use(express.json());
 app.use(cors());

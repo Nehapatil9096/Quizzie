@@ -74,7 +74,7 @@ function CreateQuiz() {
         return;
       }
 
-      const response = await axios.post('http://localhost:3001/api/saveQuiz', {
+      const response = await axios.post('https://quizzie12343.onrender.com/api/saveQuiz', {
         userId,
         quizName,
         quizType,

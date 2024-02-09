@@ -39,7 +39,7 @@ function Home() {
   useEffect(() => {
     const fetchTrendingQuizzes = async () => {
         try {
-            const response = await axios.get('http://localhost:3001/trending-quizzes', {
+            const response = await axios.get('https://quizzie12343.onrender.com/trending-quizzes', {
                 headers: {
                     Authorization: `Bearer ${token}`,
                 },
@@ -61,7 +61,7 @@ function Home() {
         if (!token) {
           console.log('TOKEN IS MISSING, TOKEN',token);
               return;}
-        const response = await axios.get('http://localhost:3001/dashboard', {
+        const response = await axios.get('https://quizzie12343.onrender.com/dashboard', {
           headers: {
             Authorization: `Bearer ${token}`,
           },
