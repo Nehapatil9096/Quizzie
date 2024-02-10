@@ -19,18 +19,19 @@ console.log("MongoDB URL:", mongoURL);
 
 app.use(express.json());
 app.use(cors());
-import cors from 'cors';
-const prodOrigins = [
-  getEnvironmentVariable('ORIGIN_1'),
- // getEnvironmentVariable('ORIGIN_2'),
- // getEnvironmentVariable('ORIGIN_3'),
-];
+
 const devOrigin = ['http://localhost:5173'];
-const allowedOrigins = getEnvironmentVariable('NODE_ENV') === 'production' ? prodOrigins : devOrigin;
+const prodOrigins = [
+  process.env.ORIGIN_1, // Use ORIGIN_1 from the .env file
+];
+
+const allowedOrigins =
+  process.env.NODE_ENV === 'production' ? prodOrigins : devOrigin;
+
 app.use(
   cors({
     origin: (origin, callback) => {
-      if (getEnvironmentVariable('NODE_ENV') === 'production') {
+      if (process.env.NODE_ENV === 'production') {
         if (!origin || allowedOrigins.includes(origin)) {
           callback(null, true);
         } else {
@@ -43,8 +44,9 @@ app.use(
     optionsSuccessStatus: 200,
     credentials: true,
     methods: ['GET', 'POST', 'PUT', 'DELETE'],
-  }),
+  })
 );
+
 
 //SET MONGODB 
 mongoose.connect(mongoURL,{
