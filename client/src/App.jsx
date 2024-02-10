@@ -37,7 +37,7 @@ function QuizViewer() {
   const [userAnswers, setUserAnswers] = useState([]);
 
   useEffect(() => {
-    fetch(`http://localhost:3001/quiz/${userId}/${quizName}`)
+    fetch(`https://quizzie12343.onrender.com/quiz/${userId}/${quizName}`)
       .then(response => response.json())
       .then(data => setQuizData(data.quiz))
       .catch(error => console.error('Error fetching quiz data:', error.message));

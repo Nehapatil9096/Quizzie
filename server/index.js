@@ -409,7 +409,7 @@ app.post('/api/saveQuiz', async (req, res) => {
             return res.status(404).json({ error: 'User not found' });
         }
 
-        const quizLink = `http://localhost:3001/quiz/${userId}/${quizName}`;
+        const quizLink = `https://quizzie12343.onrender.com/quiz/${userId}/${quizName}`;
         await user.addQuiz(quizName, questions);
 
         return res.json({ message: 'Quiz data saved successfully', quizLink });
